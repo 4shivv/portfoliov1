@@ -60,14 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Animate sections once loading is complete
                         animateOnScroll();
                         window.addEventListener('scroll', animateOnScroll);
-                    }, 800);
-                }, 600);
+                    }, 300);
+                }, 200);
             }
-        }, 800);
+        }, 300); // Reduced from 800ms to 300ms
     }
     
     // Start loading animation after a short delay
-    setTimeout(animateLoaderText, 500);
+    setTimeout(animateLoaderText, 200); // Reduced from 500ms to 200ms
     
     // Scroll progress bar
     const progressBar = document.getElementById('progress-bar');
