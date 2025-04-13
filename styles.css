@@ -1,4 +1,14 @@
 /* Modern Plain Text Editor Style Portfolio */
+/* Progress Animation */
+@keyframes pulse {
+    0% { box-shadow: 0 0 5px rgba(var(--accent-rgb), 0.4); }
+    50% { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.7); }
+    100% { box-shadow: 0 0 5px rgba(var(--accent-rgb), 0.4); }
+}
+
+.progress-bar.pulse {
+    animation: pulse 0.8s ease-in-out;
+}
 :root {
     /* Light Mode */
     --text-color: #111111;
@@ -8,6 +18,7 @@
     --border-color: #e1e4e8;
     --link-color: #0366d6;
     --accent-color: #0366d6;
+    --accent-rgb: 3, 102, 214;
     --heading-color: #24292e;
     --selection-bg: rgba(3, 102, 214, 0.15);
     --cursor-color: #111111;
@@ -26,6 +37,7 @@
     --border-color: #333333;
     --link-color: #58a6ff;
     --accent-color: #58a6ff;
+    --accent-rgb: 88, 166, 255;
     --heading-color: #e6edf3;
     --selection-bg: rgba(56, 139, 253, 0.25);
     --cursor-color: #aeafad;
@@ -171,12 +183,12 @@ a:hover {
     align-items: center;
     z-index: 9999;
     font-family: var(--font-mono);
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 .loading-content {
     text-align: left;
-    width: 500px;
+    width: 550px;
     max-width: 90%;
     position: relative;
 }
@@ -185,16 +197,17 @@ a:hover {
     background-color: var(--section-bg);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) scale(0.98);
     animation: fade-in 0.8s forwards 0.3s;
+    border: 1px solid var(--border-color);
 }
 
 @keyframes fade-in {
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -278,7 +291,7 @@ a:hover {
 
 /* Sections */
 section {
-    padding: 4rem 0;
+    padding: 5rem 0;
     background-color: var(--section-bg);
     position: relative;
     opacity: 0;
@@ -465,7 +478,16 @@ header h1 {
     background-color: rgba(0, 0, 0, 0.02);
     border-radius: 4px;
     border-left: 2px solid var(--accent-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.skill-category.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 [data-theme="dark"] .skill-category {
@@ -475,6 +497,23 @@ header h1 {
 .skill-category:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-left-width: 4px;
+}
+
+.skill-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(var(--accent-rgb), 0.03), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.skill-category:hover::before {
+    transform: translateX(100%);
 }
 
 .skill-category h3 {
@@ -640,22 +679,29 @@ footer {
     background-color: var(--section-bg);
 }
 
-/* Scroll Progress */
+/* Progress Bar */
 .progress-container {
     position: fixed;
-    top: var(--navbar-height);
+    top: 0;
     left: 0;
     width: 100%;
     height: 3px;
-    background: transparent;
-    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.05);
+    z-index: 1001;
+}
+
+[data-theme="dark"] .progress-container {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .progress-bar {
     height: 100%;
-    background: var(--accent-color);
+    background: linear-gradient(90deg, var(--accent-color), #6ab0ff);
     width: 0%;
-    transition: width 0.1s;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 102, 214, 0.3);
+    transition: width 0.2s ease-out;
 }
 
 /* Media Queries */

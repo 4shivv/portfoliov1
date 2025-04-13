@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const typingTextContainer = document.getElementById('typing-text');
     
     function typeText() {
-        const text = "Loading portfolio...\n\nHello! I'm Shivaganesh.\nSoftware Engineer & CS Student\n\nInitializing content...";
+        const text = "Hello! I'm Shivaganesh.\nSoftware Engineer & CS Student\n\nLoading portfolio...\nInitializing systems...\nMounting components...\nRendering interface...\n\nWelcome!";
         let charIndex = 0;
         
         function type() {
@@ -42,11 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     const span = document.createElement('span');
                     span.textContent = text.charAt(charIndex);
-                    span.style.animationDelay = `${charIndex * 30}ms`;
+                    span.style.animationDelay = `${charIndex * 25}ms`;
                     typingTextContainer.appendChild(span);
                 }
                 charIndex++;
-                setTimeout(type, 30);
+                setTimeout(type, 25);
             } else {
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Animate sections once loading is complete
                         animateOnScroll();
                         window.addEventListener('scroll', animateOnScroll);
-                    }, 500);
-                }, 700);
+                    }, 800);
+                }, 800);
             }
         }
         
@@ -75,7 +75,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollHeight = document.documentElement.scrollHeight;
         const clientHeight = document.documentElement.clientHeight;
         const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-        progressBar.style.width = scrollPercentage + '%';
+        
+        // Apply a slight delay with requestAnimationFrame for smoother updates
+        requestAnimationFrame(() => {
+            progressBar.style.width = scrollPercentage + '%';
+            
+            // Add a pulse animation when reaching milestones
+            if (scrollPercentage > 25 && scrollPercentage < 26 || 
+                scrollPercentage > 50 && scrollPercentage < 51 || 
+                scrollPercentage > 75 && scrollPercentage < 76 || 
+                scrollPercentage > 95 && scrollPercentage < 96) {
+                progressBar.classList.add('pulse');
+                setTimeout(() => {
+                    progressBar.classList.remove('pulse');
+                }, 800);
+            }
+        });
     }
     
     window.addEventListener('scroll', updateProgressBar);
@@ -144,30 +159,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const sections = document.querySelectorAll('section');
         const triggerBottom = window.innerHeight * 0.8;
         
-        sections.forEach(section => {
+        sections.forEach((section, sectionIndex) => {
             const sectionTop = section.getBoundingClientRect().top;
             
             if (sectionTop < triggerBottom) {
-                section.classList.add('visible');
-                
-                // Animate list items within the section
-                const listItems = section.querySelectorAll('.achievements li, .project-details li');
-                listItems.forEach((item, index) => {
-                    item.style.setProperty('--i', index);
-                    setTimeout(() => {
-                        item.classList.add('visible');
-                    }, 300 + (index * 100));
-                });
-                
-                // Animate About Me paragraphs
-                if (section.id === 'about-me') {
-                    const paragraphs = section.querySelectorAll('.about-me p');
-                    paragraphs.forEach((paragraph, index) => {
+                // Add a staggered delay based on section index for smoother transitions
+                setTimeout(() => {
+                    section.classList.add('visible');
+                    
+                    // Animate list items within the section
+                    const listItems = section.querySelectorAll('.achievements li, .project-details li');
+                    listItems.forEach((item, index) => {
+                        item.style.setProperty('--i', index);
                         setTimeout(() => {
-                            paragraph.classList.add('visible');
-                        }, 300 + (index * 150));
+                            item.classList.add('visible');
+                        }, 300 + (index * 100));
                     });
-                }
+                    
+                    // Animate About Me paragraphs
+                    if (section.id === 'about-me') {
+                        const paragraphs = section.querySelectorAll('.about-me p');
+                        paragraphs.forEach((paragraph, index) => {
+                            setTimeout(() => {
+                                paragraph.classList.add('visible');
+                            }, 300 + (index * 150));
+                        });
+                    }
+                    
+                    // Animate skill categories with staggered delay
+                    if (section.id === 'skills') {
+                        const skillCategories = section.querySelectorAll('.skill-category');
+                        skillCategories.forEach((category, index) => {
+                            setTimeout(() => {
+                                category.classList.add('visible');
+                            }, 150 * index);
+                        });
+                    }
+                }, sectionIndex * 100);  // Staggered delay between sections
             }
         });
     }
