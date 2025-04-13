@@ -27,27 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Loading screen with typing animation
+    // Loading screen
     const loadingScreen = document.getElementById('loading-screen');
-    const typingTextContainer = document.getElementById('typing-text');
+    const loaderText = document.getElementById('loader-text');
     
-    function typeText() {
-        const text = "Hello! I'm Shivaganesh.\nSoftware Engineer & CS Student\n\nLoading portfolio...\nInitializing systems...\nMounting components...\nRendering interface...\n\nWelcome!";
-        let charIndex = 0;
+    // Loading text animation
+    function animateLoaderText() {
+        const texts = [
+            "Loading portfolio...",
+            "Initializing...",
+            "Setting up styles...",
+            "Preparing content...",
+            "Almost ready..."
+        ];
         
-        function type() {
-            if (charIndex < text.length) {
-                if (text.charAt(charIndex) === '\n') {
-                    typingTextContainer.innerHTML += '<br>';
-                } else {
-                    const span = document.createElement('span');
-                    span.textContent = text.charAt(charIndex);
-                    span.style.animationDelay = `${charIndex * 25}ms`;
-                    typingTextContainer.appendChild(span);
-                }
-                charIndex++;
-                setTimeout(type, 25);
-            } else {
+        let currentIndex = 0;
+        
+        const textInterval = setInterval(() => {
+            loaderText.textContent = texts[currentIndex];
+            currentIndex = (currentIndex + 1) % texts.length;
+            
+            // If we've gone through all texts twice, hide the loader
+            if (currentIndex === 0 && texts.length > 1) {
+                clearInterval(textInterval);
+                
+                // Hide loading screen
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
@@ -57,15 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         animateOnScroll();
                         window.addEventListener('scroll', animateOnScroll);
                     }, 800);
-                }, 800);
+                }, 600);
             }
-        }
-        
-        type();
+        }, 800);
     }
     
-    // Start typing animation
-    setTimeout(typeText, 500);
+    // Start loading animation after a short delay
+    setTimeout(animateLoaderText, 500);
     
     // Scroll progress bar
     const progressBar = document.getElementById('progress-bar');

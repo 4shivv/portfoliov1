@@ -1,4 +1,5 @@
 /* Modern Plain Text Editor Style Portfolio */
+
 /* Progress Animation */
 @keyframes pulse {
     0% { box-shadow: 0 0 5px rgba(var(--accent-rgb), 0.4); }
@@ -9,6 +10,7 @@
 .progress-bar.pulse {
     animation: pulse 0.8s ease-in-out;
 }
+
 :root {
     /* Light Mode */
     --text-color: #111111;
@@ -187,106 +189,75 @@ a:hover {
 }
 
 .loading-content {
-    text-align: left;
-    width: 550px;
+    text-align: center;
+    width: 100%;
     max-width: 90%;
     position: relative;
 }
 
-.text-editor {
-    background-color: var(--section-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transform: translateY(30px) scale(0.98);
-    animation: fade-in 0.8s forwards 0.3s;
-    border: 1px solid var(--border-color);
-}
-
-@keyframes fade-in {
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.editor-header {
-    background-color: var(--section-bg);
+.loader-wrapper {
     display: flex;
-    padding: 12px;
-    border-bottom: 1px solid var(--border-color);
+    flex-direction: column;
     align-items: center;
+    gap: 2rem;
 }
 
-.editor-title {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-left: 10px;
-    flex-grow: 1;
-}
-
-.editor-controls {
-    display: flex;
-    gap: 8px;
-}
-
-.editor-control {
-    width: 12px;
-    height: 12px;
+.loader {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
+    border: 3px solid rgba(var(--accent-rgb), 0.1);
+    border-top-color: var(--accent-color);
+    animation: spin 1s linear infinite;
+    position: relative;
 }
 
-.editor-close {
-    background-color: #ff5f57;
+.loader::before,
+.loader::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid rgba(var(--accent-rgb), 0.05);
 }
 
-.editor-minimize {
-    background-color: #febc2e;
+.loader::before {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-top-color: var(--accent-color);
+    opacity: 0.8;
+    animation: spin 2s linear infinite;
 }
 
-.editor-maximize {
-    background-color: #28c840;
+.loader-inner {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid rgba(var(--accent-rgb), 0.03);
+    border-top-color: var(--accent-color);
+    opacity: 0.6;
+    animation: spin 3s linear infinite;
 }
 
-.editor-body {
-    padding: 20px;
-    font-family: var(--font-mono);
-    line-height: 1.6;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-.cursor {
-    display: inline-block;
-    width: 10px;
-    height: 20px;
-    background-color: var(--accent-color);
-    animation: blink 1s infinite;
-    vertical-align: text-bottom;
-    margin-left: 2px;
+.loader-text {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    animation: pulse-text 1.5s ease-in-out infinite;
 }
 
-@keyframes blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-}
-
-.typing-animation {
-    overflow: hidden;
-    white-space: pre-wrap;
-}
-
-.typing-animation span {
-    display: inline-block;
-    animation: type-in 0.05s forwards;
-    opacity: 0;
-    transform: translateY(8px);
-}
-
-@keyframes type-in {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 /* Sections */
@@ -708,15 +679,28 @@ footer {
 @media (max-width: 768px) {
     .navbar {
         padding: 0 1rem;
+        height: 60px;
+    }
+    
+    .nav-logo {
+        font-size: 1.1rem;
     }
     
     .theme-toggle {
-        margin-left: 1rem;
+        margin-left: 0.75rem;
+        font-size: 1rem;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+        padding: 0.5rem;
+        margin-left: 0.5rem;
+        font-size: 1.2rem;
     }
     
     .nav-links {
         position: fixed;
-        top: var(--navbar-height);
+        top: 60px;
         left: 0;
         width: 100%;
         background-color: var(--section-bg);
@@ -726,6 +710,7 @@ footer {
         overflow: hidden;
         transition: max-height 0.3s ease, background-color 0.3s;
         border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     
     .nav-links.active {
@@ -733,14 +718,11 @@ footer {
     }
     
     .nav-links a {
-        padding: 1rem 2rem;
+        padding: 1rem 1.5rem;
         width: 100%;
         display: block;
         border-bottom: 1px solid var(--border-color);
-    }
-    
-    .mobile-menu-btn {
-        display: block;
+        font-size: 0.95rem;
     }
     
     .skills-grid {
@@ -767,6 +749,93 @@ footer {
     }
     
     header h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+    }
+    
+    /* Improve touch targets */
+    .contact-info a,
+    .nav-links a,
+    .project-link,
+    .theme-toggle,
+    .mobile-menu-btn {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Better spacing for project items */
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    /* Optimize tech stack tags for mobile */
+    .tech-stack {
+        margin: 0.75rem 0 1rem;
+    }
+    
+    .tech {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Small screen optimizations */
+@media (max-width: 480px) {
+    :root {
+        --navbar-height: 55px;
+    }
+    
+    .navbar {
+        height: var(--navbar-height);
+        padding: 0 0.75rem;
+    }
+    
+    .nav-logo {
+        font-size: 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.6rem;
+        line-height: 1.3;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    header, section {
+        padding: 2rem 0.75rem;
+    }
+    
+    .contact-info a {
+        font-size: 0.9rem;
+    }
+    
+    .contact-info a i {
+        min-width: 20px;
+    }
+    
+    .loader {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* Make code readable on mobile */
+    pre, code {
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 0.9rem;
+    }
+    
+    /* Fix project item spacing */
+    .project-item {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    /* Better buttons for small screens */
+    .project-link {
+        padding: 0.5rem 0;
     }
 }
