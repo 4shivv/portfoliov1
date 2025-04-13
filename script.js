@@ -27,48 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Loading screen
-    const loadingScreen = document.getElementById('loading-screen');
-    const loaderText = document.getElementById('loader-text');
-    
-    // Loading text animation
-    function animateLoaderText() {
-        const texts = [
-            "Loading portfolio...",
-            "Initializing...",
-            "Setting up styles...",
-            "Preparing content...",
-            "Almost ready..."
-        ];
-        
-        let currentIndex = 0;
-        
-        const textInterval = setInterval(() => {
-            loaderText.textContent = texts[currentIndex];
-            currentIndex = (currentIndex + 1) % texts.length;
-            
-            // If we've gone through all texts twice, hide the loader
-            if (currentIndex === 0 && texts.length > 1) {
-                clearInterval(textInterval);
-                
-                // Hide loading screen
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        
-                        // Animate sections once loading is complete
-                        animateOnScroll();
-                        window.addEventListener('scroll', animateOnScroll);
-                    }, 300);
-                }, 200);
-            }
-        }, 300); // Reduced from 800ms to 300ms
-    }
-    
-    // Start loading animation after a short delay
-    setTimeout(animateLoaderText, 200); // Reduced from 500ms to 200ms
-    
     // Scroll progress bar
     const progressBar = document.getElementById('progress-bar');
     
@@ -156,51 +114,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Function to animate sections when they come into view
-    function animateOnScroll() {
-        const sections = document.querySelectorAll('section');
-        const triggerBottom = window.innerHeight * 0.8;
-        
-        sections.forEach((section, sectionIndex) => {
-            const sectionTop = section.getBoundingClientRect().top;
-            
-            if (sectionTop < triggerBottom) {
-                // Add a staggered delay based on section index for smoother transitions
-                setTimeout(() => {
-                    section.classList.add('visible');
-                    
-                    // Animate list items within the section
-                    const listItems = section.querySelectorAll('.achievements li, .project-details li');
-                    listItems.forEach((item, index) => {
-                        item.style.setProperty('--i', index);
-                        setTimeout(() => {
-                            item.classList.add('visible');
-                        }, 300 + (index * 100));
-                    });
-                    
-                    // Animate About Me paragraphs
-                    if (section.id === 'about-me') {
-                        const paragraphs = section.querySelectorAll('.about-me p');
-                        paragraphs.forEach((paragraph, index) => {
-                            setTimeout(() => {
-                                paragraph.classList.add('visible');
-                            }, 300 + (index * 150));
-                        });
-                    }
-                    
-                    // Animate skill categories with staggered delay
-                    if (section.id === 'skills') {
-                        const skillCategories = section.querySelectorAll('.skill-category');
-                        skillCategories.forEach((category, index) => {
-                            setTimeout(() => {
-                                category.classList.add('visible');
-                            }, 150 * index);
-                        });
-                    }
-                }, sectionIndex * 100);  // Staggered delay between sections
+    // Setup Intersection Observer for scroll animations
+    const observerOptions = {
+        root: null, // Use viewport as root
+        rootMargin: '0px',
+        threshold: 0.15 // Element is considered "visible" when 15% is in view
+    };
+    
+    // Create observer instance
+    const fadeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing once it's visible
             }
         });
-    }
+    }, observerOptions);
+    
+    // Observe all elements with fade-in classes
+    const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
+    fadeElements.forEach(element => {
+        fadeObserver.observe(element);
+    });
     
     // Highlight active section in navbar
     function highlightNavigation() {
@@ -233,5 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // Run highlight navigation once on load and add scroll listener
+    highlightNavigation();
     window.addEventListener('scroll', highlightNavigation);
 });
