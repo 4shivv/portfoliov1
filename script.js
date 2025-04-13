@@ -38,17 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Apply a slight delay with requestAnimationFrame for smoother updates
         requestAnimationFrame(() => {
-            progressBar.style.width = scrollPercentage + '%';
-            
-            // Add a pulse animation when reaching milestones
-            if (scrollPercentage > 25 && scrollPercentage < 26 || 
-                scrollPercentage > 50 && scrollPercentage < 51 || 
-                scrollPercentage > 75 && scrollPercentage < 76 || 
-                scrollPercentage > 95 && scrollPercentage < 96) {
-                progressBar.classList.add('pulse');
-                setTimeout(() => {
-                    progressBar.classList.remove('pulse');
-                }, 800);
+            if (progressBar) {
+                progressBar.style.width = scrollPercentage + '%';
+                
+                // Add a pulse animation when reaching milestones
+                if (scrollPercentage > 25 && scrollPercentage < 26 || 
+                    scrollPercentage > 50 && scrollPercentage < 51 || 
+                    scrollPercentage > 75 && scrollPercentage < 76 || 
+                    scrollPercentage > 95 && scrollPercentage < 96) {
+                    progressBar.classList.add('pulse');
+                    setTimeout(() => {
+                        progressBar.classList.remove('pulse');
+                    }, 800);
+                }
             }
         });
     }
@@ -63,10 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollY = window.scrollY;
         
         // Show navbar at top of page or when scrolling up
-        if (scrollY < 150 || scrollY < lastScrollY) {
-            navbar.classList.remove('hidden');
-        } else {
-            navbar.classList.add('hidden');
+        if (navbar) {
+            if (scrollY < 150 || scrollY < lastScrollY) {
+                navbar.classList.remove('hidden');
+            } else {
+                navbar.classList.add('hidden');
+            }
         }
         
         lastScrollY = scrollY;
@@ -114,6 +118,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Make elements in the initial viewport visible immediately
+    function handleInitialVisibility() {
+        const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
+        
+        fadeElements.forEach(element => {
+            // Check if element is in viewport on page load
+            const rect = element.getBoundingClientRect();
+            const isInViewport = (
+                rect.top <= window.innerHeight &&
+                rect.bottom >= 0
+            );
+            
+            // Make elements in viewport visible immediately
+            if (isInViewport) {
+                element.classList.add('visible');
+            }
+        });
+    }
+    
+    // Run once immediately to handle elements in the initial viewport
+    handleInitialVisibility();
+    
     // Setup Intersection Observer for scroll animations
     const observerOptions = {
         root: null, // Use viewport as root
@@ -134,7 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Observe all elements with fade-in classes
     const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
     fadeElements.forEach(element => {
-        fadeObserver.observe(element);
+        // Skip elements that are already visible
+        if (!element.classList.contains('visible')) {
+            fadeObserver.observe(element);
+        }
     });
     
     // Highlight active section in navbar
@@ -163,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Special case for header
-        if (scrollY < document.querySelector('section').offsetTop - 100) {
+        if (sections.length > 0 && scrollY < document.querySelector('section').offsetTop - 100) {
             navLinkItems.forEach(link => link.classList.remove('active'));
         }
     }
