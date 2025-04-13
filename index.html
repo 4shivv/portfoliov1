@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivaganesh Nagamandla - VS Code Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://code.visualstudio.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="vscode-window">
+            <div class="window-title-bar">
+                <div class="window-controls">
+                    <div class="window-control window-close"></div>
+                    <div class="window-control window-minimize"></div>
+                    <div class="window-control window-maximize"></div>
+                </div>
+                <div class="window-title">portfolio.js - Visual Studio Code</div>
+            </div>
+            <div class="window-content">
+                <div class="activity-bar">
+                    <svg class="activity-icon active" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15.07L2.5 24h12.07L16 22.57V18h4.7l1.3-1.43V4.5L17.5 0zm0 2.12l2.38 2.38H17.5V2.12zm-3 20.38h-12v-15H7v9.07L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"></path>
+                    </svg>
+                    <svg class="activity-icon" viewBox="0 0 16 16" width="24" height="24">
+                        <path fill="currentColor" d="M9.1 4.4L8.6 2H7.4l-.5 2.4-.7.3-2-1.3-.9.8 1.3 2-.2.7-2.4.5v1.2l2.4.5.3.8-1.3 2 .8.8 2-1.3.8.3.4 2.3h1.2l.5-2.4.8-.3 2 1.3.8-.8-1.3-2 .3-.8 2.3-.4V7.4l-2.4-.5-.3-.8 1.3-2-.8-.8-2 1.3-.7-.2zM8 9.1A1.1 1.1 0 1 0 8 6.9a1.1 1.1 0 0 0 0 2.2z"/>
+                    </svg>
+                    <svg class="activity-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M21.007 8.222A3.738 3.738 0 0 0 15.045 5.2a3.737 3.737 0 0 0 1.156 6.583 2.988 2.988 0 0 1-2.668 1.67h-2.99a4.456 4.456 0 0 0-2.989 1.165V7.4a3.737 3.737 0 1 0-1.494 0v9.117a3.776 3.776 0 1 0 1.816.099 2.99 2.99 0 0 1 2.668-1.667h2.99a4.484 4.484 0 0 0 4.223-3.039 3.736 3.736 0 0 0 3.25-3.687zM4.565 3.738a2.242 2.242 0 1 1 4.484 0 2.242 2.242 0 0 1-4.484 0zm4.484 16.441a2.242 2.242 0 1 1-4.484 0 2.242 2.242 0 0 1 4.484 0zm8.221-9.715a2.242 2.242 0 1 1 0-4.485 2.242 2.242 0 0 1 0 4.485z"></path>
+                    </svg>
+                </div>
+                <div class="sidebar">
+                    <div class="explorer-header">
+                        <span class="explorer-title">EXPLORER: PORTFOLIO</span>
+                        <div class="explorer-actions">
+                            <span>...</span>
+                        </div>
+                    </div>
+                    <div class="explorer-files">
+                        <div class="folder open">portfolio</div>
+                        <div class="file file-js active">portfolio.js</div>
+                        <div class="file file-html">index.html</div>
+                        <div class="file file-css">styles.css</div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <div class="editor-tabs">
+                        <div class="editor-tab active">portfolio.js</div>
+                    </div>
+                    <div class="editor-code" id="loading-code">
+                        <div class="terminal-output">
+                            <div class="terminal-line">
+                                <span class="prompt">$</span>
+                                <span class="command typing-animation">node init-portfolio.js</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="output">Initializing VS Code portfolio environment...</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="output">Installing dependencies...</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">✓ React.js successfully installed</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">✓ Node.js successfully installed</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">✓ MongoDB successfully installed</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">✓ Express successfully installed</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="output">Loading portfolio data...</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="output">Compiling portfolio components...</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">Portfolio compiled successfully!</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="prompt">$</span>
+                                <span class="command typing-animation">npm start</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="output">Starting development server...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="loading-text">Loading VS Code environment...</div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Main Portfolio App -->
+    <div class="editor-app">
+        <!-- Title Bar (macOS style) -->
+        <div class="window-title-bar">
+            <div class="window-controls">
+                <div class="window-control window-close"></div>
+                <div class="window-control window-minimize"></div>
+                <div class="window-control window-maximize"></div>
+            </div>
+            <div class="window-title">portfolio.js - Shivaganesh Nagamandla - Visual Studio Code</div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="app-container">
+            <!-- Activity Bar -->
+            <div class="app-activity-bar">
+                <div class="app-activity-icon active" data-view="explorer" title="Explorer">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15.07L2.5 24h12.07L16 22.57V18h4.7l1.3-1.43V4.5L17.5 0zm0 2.12l2.38 2.38H17.5V2.12zm-3 20.38h-12v-15H7v9.07L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"></path>
+                    </svg>
+                </div>
+                <div class="app-activity-icon" data-view="search" title="Search">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M15.25 0a8.25 8.25 0 0 0-6.18 13.72L1 22.88l1.12 1 8.05-9.12A8.251 8.251 0 1 0 15.25.01V0zm0 15a6.75 6.75 0 1 1 0-13.5 6.75 6.75 0 0 1 0 13.5z"></path>
+                    </svg>
+                </div>
+                <div class="app-activity-icon" data-view="git" title="Source Control">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M21.007 8.222A3.738 3.738 0 0 0 15.045 5.2a3.737 3.737 0 0 0 1.156 6.583 2.988 2.988 0 0 1-2.668 1.67h-2.99a4.456 4.456 0 0 0-2.989 1.165V7.4a3.737 3.737 0 1 0-1.494 0v9.117a3.776 3.776 0 1 0 1.816.099 2.99 2.99 0 0 1 2.668-1.667h2.99a4.484 4.484 0 0 0 4.223-3.039 3.736 3.736 0 0 0 3.25-3.687zM4.565 3.738a2.242 2.242 0 1 1 4.484 0 2.242 2.242 0 0 1-4.484 0zm4.484 16.441a2.242 2.242 0 1 1-4.484 0 2.242 2.242 0 0 1 4.484 0zm8.221-9.715a2.242 2.242 0 1 1 0-4.485 2.242 2.242 0 0 1 0 4.485z"></path>
+                    </svg>
+                </div>
+                <div class="app-activity-icon" data-view="debug" title="Run and Debug">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M10.94 13.5l-1.32 1.32a3.73 3.73 0 0 0-7.24 0L1.06 13.5 0 14.56l1.72 1.72-.22.22V18H0v1.5h1.5v.08c.077.489.214.966.41 1.42L0 22.94 1.06 24l1.65-1.65A4.308 4.308 0 0 0 6 24a4.31 4.31 0 0 0 3.29-1.65L10.94 24 12 22.94 10.09 21c.198-.464.336-.95.41-1.45v-.05H12V18h-1.5v-1.5l-.22-.22L12 14.56l-1.06-1.06zM6 13.5a2.25 2.25 0 0 1 2.25 2.25h-4.5A2.25 2.25 0 0 1 6 13.5zm3 6a3.33 3.33 0 0 1-3 3 3.33 3.33 0 0 1-3-3v-2.25h6v2.25zm14.76-9.9v-1.5h-4.81l-.85-.85h5.56V5.79l-3.35-3.35h-.6L16.5 5.64V5.5h-12v6H6v-3h9v.21l2.85 2.79h.5L21 9.15V15H9v1.5h6V15h7.5V9.6h-1.74z"></path>
+                    </svg>
+                </div>
+                <div class="app-activity-icon" data-view="extensions" title="Extensions">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M13.5 1.5L15 0h7.5L24 1.5V9l-1.5 1.5H15L13.5 9V1.5zm1.5 0V9h7.5V1.5H15zM0 15V6l1.5-1.5H9L10.5 6v9L9 16.5H1.5L0 15zm1.5 0H9V6H1.5v9zM13.5 24L15 22.5h7.5l1.5-1.5V15l-1.5-1.5H15L13.5 15v7.5zM15 15v7.5h7.5V15H15z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="app-sidebar" id="app-sidebar">
+                <div class="app-sidebar-header">
+                    EXPLORER: PORTFOLIO
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">NAVIGATION</div>
+                    <div class="sidebar-item active" data-section="header">
+                        <span class="sidebar-item-icon">🏠</span>Home
+                    </div>
+                    <div class="sidebar-item" data-section="education">
+                        <span class="sidebar-item-icon">🎓</span>Education
+                    </div>
+                    <div class="sidebar-item" data-section="skills">
+                        <span class="sidebar-item-icon">💻</span>Skills
+                    </div>
+                    <div class="sidebar-item" data-section="experience">
+                        <span class="sidebar-item-icon">💼</span>Experience
+                    </div>
+                    <div class="sidebar-item" data-section="projects">
+                        <span class="sidebar-item-icon">🚀</span>Projects
+                    </div>
+                    <div class="sidebar-item" data-section="contact">
+                        <span class="sidebar-item-icon">📧</span>Contact
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">FILES</div>
+                    <div class="sidebar-item">
+                        <span class="sidebar-item-icon">📄</span>portfolio.js
+                    </div>
+                    <div class="sidebar-item">
+                        <span class="sidebar-item-icon">📄</span>index.html
+                    </div>
+                    <div class="sidebar-item">
+                        <span class="sidebar-item-icon">📄</span>styles.css
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+
+            <!-- Editor Area -->
+            <div class="app-editor">
+                <div class="app-editor-tabs">
+                    <div class="app-editor-tab active">portfolio.js</div>
+                    <div class="app-editor-tab">README.md</div>
+                </div>
+                <div class="app-editor-content">
+                    <div class="line-numbers"></div>
+
+                    <!-- Header Section -->
+                    <div class="section" id="header">
+                        <div class="app-editor-line">
+                            <span class="token comment">// Portfolio of Shivaganesh Nagamandla</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">class</span> <span class="token class">Portfolio</span> <span class="token punctuation">{</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">  constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">    this</span><span class="token punctuation">.</span><span class="token property">name</span> <span class="token operator">=</span> <span class="token string">"Shivaganesh Nagamandla"</span><span class="token punctuation">;</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">    this</span><span class="token punctuation">.</span><span class="token property">title</span> <span class="token operator">=</span> <span class="token string">"Software Engineer | CS Student"</span><span class="token punctuation">;</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">    this</span><span class="token punctuation">.</span><span class="token property">contact</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+                        </div>
+                        
+                        <div class="header">
+                            <h1 class="header-title">Shivaganesh Nagamandla</h1>
+                            <p class="header-subtitle">Software Engineer | CS Student</p>
+                            
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <span class="tooltip">
+                                        <a href="tel:9546819535" class="copy-contact">(954) 681-9535</a>
+                                        <span class="tooltip-text">Ctrl+Click to copy</span>
+                                    </span>
+                                </div>
+                                <span class="contact-separator">•</span>
+                                <div class="contact-item">
+                                    <span class="tooltip">
+                                        <a href="mailto:shiv.nagamandla@gmail.com" class="copy-contact">shiv.nagamandla@gmail.com</a>
+                                        <span class="tooltip-text">Ctrl+Click to copy</span>
+                                    </span>
+                                </div>
+                                <span class="contact-separator">•</span>
+                                <div class="contact-item">
+                                    <a href="https://linkedin.com/in/shivaganesh-nagamandla" target="_blank">LinkedIn</a>
+                                </div>
+                                <span class="contact-separator">•</span>
+                                <div class="contact-item">
+                                    <a href="https://github.com/4shivv" target="_blank">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    <div class="section" id="education">
+                        <div class="app-editor-line">
+                            <span class="token comment">  // Education details</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">  education</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">    return</span> <span class="token punctuation">[</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token punctuation">      {</span>
+                        </div>
+
+                        <div class="section-title">Education</div>
+                        <div class="comment-block">Bachelor of Science in Computer Science</div>
+                        
+                        <div class="education-item">
+                            <h3 class="education-title">University of Central Florida</h3>
+                            <p class="education-degree">Bachelor of Science - Computer Science (Bright Futures Scholar)</p>
+                            <p class="education-meta">Orlando, FL • Expected: April 2026</p>
+                            <p class="education-courses">
+                                <span class="education-courses-title">Coursework:</span> 
+                                Data Structures & Algorithms, Systems Software, Computer Architecture, Numerical Calculus
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="section" id="skills">
+                        <div class="app-editor-line">
+                            <span class="token punctuation">      }</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token punctuation">    ]</span><span class="token punctuation">;</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token punctuation">  }</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token comment">  // Technical skills</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">  skills</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        </div>
+                        
+                        <div class="section-title">Technical Skills</div>
+                        <div class="comment-block">Languages, frameworks, and tools I work with</div>
+                        
+                        <div class="skills-container">
+                            <div class="skill-group" style="--group-index: 0">
+                                <h3 class="skill-title">Certifications</h3>
+                                <p class="skill-list">Microsoft Office, Microsoft Excel, Operating Systems, AI Associate</p>
+                            </div>
+                            <div class="skill-group" style="--group-index: 1">
+                                <h3 class="skill-title">Programming Languages</h3>
+                                <p class="skill-list">Python, Java, JavaScript (ES6+), SQL, C/C++, HTML5, CSS3</p>
+                            </div>
+                            <div class="skill-group" style="--group-index: 2">
+                                <h3 class="skill-title">Frameworks</h3>
+                                <p class="skill-list">React.js, Next.js, Vue.js, Node.js, Express.js</p>
+                            </div>
+                            <div class="skill-group" style="--group-index: 3">
+                                <h3 class="skill-title">Developer Tools</h3>
+                                <p class="skill-list">Git, Postman, Jira, Cursor, Visual Studio, PyCharm, CLion, Eclipse</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Section -->
+                    <div class="section" id="experience">
+                        <div class="app-editor-line">
+                            <span class="token punctuation">  }</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token comment">  // Professional experience</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">  experience</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">    return</span> <span class="token punctuation">[</span>
+                        </div>
+                        
+                        <div class="section-title">Experience</div>
+                        <div class="comment-block">Professional roles and responsibilities</div>
+                        
+                        <div class="experience-item" style="--delay: 0">
+                            <h3 class="experience-title">Software Engineer Intern</h3>
+                            <p class="experience-company">Hexaider Technologies</p>
+                            <p class="experience-meta">May 2024 – Aug 2024 • Maitland, FL</p>
+                            <ul class="experience-details">
+                                <li class="experience-detail" style="--item-index: 0">Optimized Oracle SQL scripts by 27% via refactoring to automate routine tasks & extract PeopleSoft HCM data</li>
+                                <li class="experience-detail" style="--item-index: 1">Automated unit tests for SQL transformations via parameterized mock datasets, boosting test coverage by 20%</li>
+                                <li class="experience-detail" style="--item-index: 2">Delivered over 15 error-free HR data spreadsheets for Workday HCM migration, meeting all weekly sprint goals</li>
+                                <li class="experience-detail" style="--item-index: 3">Collaborated in weekly cross-functional meetings, contributing to code reviews and reporting on data migration</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="experience-item" style="--delay: 4">
+                            <h3 class="experience-title">President</h3>
+                            <p class="experience-company">Computer Science Club</p>
+                            <p class="experience-meta">Sept 2022 – Apr 2023 • Sanford, FL</p>
+                            <ul class="experience-details">
+                                <li class="experience-detail" style="--item-index: 4">Recruited and managed a team of 10 students to deliver 15+ technical workshops with 95% positive feedback</li>
+                                <li class="experience-detail" style="--item-index: 5">Led development of the Crooms TechFest mobile app, enabling 500+ attendees to access real-time event info</li>
+                                <li class="experience-detail" style="--item-index: 6">Revamped the collaborative coding initiative, increased active member participation by 58% over the previous year</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Projects Section -->
+                    <div class="section" id="projects">
+                        <div class="app-editor-line">
+                            <span class="token punctuation">    ]</span><span class="token punctuation">;</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token punctuation">  }</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token comment">  // Personal and collaborative projects</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">  projects</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        </div>
+                        
+                        <div class="section-title">Projects</div>
+                        <div class="comment-block">Personal and collaborative development projects</div>
+                        
+                        <div class="project-item" style="--delay: 0">
+                            <div class="project-header">
+                                <h3 class="project-title">Retriv.ai</h3>
+                                <span class="project-status">(In Progress)</span>
+                            </div>
+                            <p class="project-tech">Vue.js, Firebase, Vuex, DeepSeek AI</p>
+                            <ul class="project-details">
+                                <li class="project-detail" style="--item-index: 0">Co-developing an AI-powered study platform combating student procrastination through smart scheduling and retention techniques</li>
+                                <li class="project-detail" style="--item-index: 1">Engineered custom prompt engineering pipeline for DeepSeek AI API, achieving 87% relevance score</li>
+                                <li class="project-detail" style="--item-index: 2">Implemented WebSpeech API for speech-to-text functionality with 94% accuracy rate across 8 languages</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="project-item" style="--delay: 3">
+                            <div class="project-header">
+                                <h3 class="project-title">LyricLingo</h3>
+                                <a href="https://lyriclingo.vercel.app" target="_blank" class="project-link">[View Project]</a>
+                            </div>
+                            <p class="project-tech">React, Node.js, MongoDB, Express, Redis, JavaScript</p>
+                            <ul class="project-details">
+                                <li class="project-detail" style="--item-index: 3">Developed a full-stack language learning web app with JWT authentication that integrates Spotify, Genius, DeepL APIs</li>
+                                <li class="project-detail" style="--item-index: 4">Designed an intelligent flashcard system with language auto-detection that optimizes translation requests</li>
+                                <li class="project-detail" style="--item-index: 5">Implemented sentiment analysis using Hugging Face RoBERTa model, achieving 82% accuracy</li>
+                                <li class="project-detail" style="--item-index: 6">Utilized Redis caching to store flashcards and sentiment analysis, reducing load times from 3+ seconds to under 200ms</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="project-item" style="--delay: 7">
+                            <div class="project-header">
+                                <h3 class="project-title">Slumber</h3>
+                                <a href="https://slumber-nine.vercel.app" target="_blank" class="project-link">[View Project]</a>
+                            </div>
+                            <p class="project-tech">React, Next.js, TypeScript, Tailwind CSS</p>
+                            <ul class="project-details">
+                                <li class="project-detail" style="--item-index: 7">Developed a sleep optimization tool to help users identify optimal bedtime and wake-up times</li>
+                                <li class="project-detail" style="--item-index: 8">Built React components with TypeScript and custom hooks for efficient time calculations</li>
+                                <li class="project-detail" style="--item-index: 9">Created procedurally generated animations using HTML Canvas, reducing rendering overhead by 30%</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Contact Section -->
+                    <div class="section" id="contact">
+                        <div class="app-editor-line">
+                            <span class="token punctuation">  }</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token punctuation">}</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token comment">// Run the portfolio application</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token keyword">const</span> portfolio <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class">Portfolio</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        </div>
+                        <div class="app-editor-line">
+                            <span class="token function">portfolio</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="app-footer">
+            <div class="footer-left">
+                <div class="footer-item">
+                    <svg viewBox="0 0 16 16" width="16" height="16" style="fill: white; margin-right: 5px;">
+                        <path d="M5.5 3L7 4.5 8.5 3 10 4.5 11.5 3 13 4.5 14.5 3v10l-1.5-1.5L11.5 13 10 11.5 8.5 13 7 11.5 5.5 13 4 11.5 2.5 13 1 11.5V3l1.5 1.5L4 3l1.5 1.5L7 3 8.5 4.5 10 3l1.5 1.5L13 3 14.5 4.5 16 3v10l-1.5-1.5-1.5 1.5-1.5-1.5-1.5 1.5-1.5-1.5-1.5 1.5-1.5-1.5L4 13l-1.5-1.5L1 13V3l1.5 1.5L4 3l1.5 1.5z"></path>
+                    </svg>
+                    portfolio.js
+                </div>
+                <div class="footer-item">JavaScript</div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-item">
+                    <span id="cursor-position">Ln 42, Col 18</span>
+                </div>
+                <div class="footer-item">
+                    <span id="current-time"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
