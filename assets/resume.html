@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivaganesh Nagamandla - Resume</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .contact-info {
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .education, .experience, .project {
+            margin-bottom: 15px;
+        }
+        .school, .company, .project-title {
+            font-weight: bold;
+        }
+        .degree, .position {
+            font-style: italic;
+        }
+        .date {
+            float: right;
+        }
+        ul {
+            margin-top: 5px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .skill-category h3 {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        .skill-category p {
+            margin-top: 0;
+        }
+        .tech-stack {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shivaganesh Nagamandla</h1>
+        <div class="contact-info">
+            (954) 681-9535 | shiv.nagamandla@gmail.com | linkedin.com/in/shivaganesh-nagamandla | github.com/4shivv
+        </div>
+    </header>
+
+    <section>
+        <h2>EDUCATION</h2>
+        <div class="education">
+            <span class="school">University of Central Florida</span>
+            <span class="date">Orlando, FL</span><br>
+            <span class="degree">Bachelor of Science - Computer Science (Dean's List x2, Bright Futures Scholar)</span>
+            <span class="date">April 2026</span>
+        </div>
+    </section>
+
+    <section>
+        <h2>TECHNICAL SKILLS</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Certifications:</h3>
+                <p>Microsoft Office, Microsoft Excel, Operating Systems, AI Associate</p>
+            </div>
+            <div class="skill-category">
+                <h3>Programming Languages:</h3>
+                <p>Python, Java, JavaScript (ES6+), SQL, C/C++, HTML5, CSS3</p>
+            </div>
+            <div class="skill-category">
+                <h3>Frameworks:</h3>
+                <p>React.js, Next.js, Vue.js, Node.js, Express.js, NumPy, Scikit-learn, Qiskit, Pandas</p>
+            </div>
+            <div class="skill-category">
+                <h3>Developer Tools:</h3>
+                <p>Git/Github/GitLab, Postman, Jira, Cursor, Visual Studio, PyCharm, CLion, Eclipse</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>EXPERIENCE</h2>
+        <div class="experience">
+            <span class="company">Hexaider Technologies</span>
+            <span class="date">Maitland, FL</span><br>
+            <span class="position">Software Engineer Intern</span>
+            <span class="date">August 2024 – December 2024</span>
+            <ul>
+                <li>Developed Spring Boot booking APIs for the flight reservation microservice, contributing to a 35% latency reduction</li>
+                <li>Built Kafka consumer for the seat inventory service to process real-time reservation updates, streaming over 100K+ daily events across 5+ microservices</li>
+                <li>Optimized Dockerfiles, reducing image size by 60% and AWS EC2 deployment time to 15 minutes</li>
+                <li>Collaborated in cross-functional code reviews to enforce design standards and improve deployment reliability</li>
+            </ul>
+        </div>
+        <div class="experience">
+            <span class="company">Hexaider Technologies</span>
+            <span class="date">Maitland, FL</span><br>
+            <span class="position">Data Engineering Intern</span>
+            <span class="date">May 2024 – August 2024</span>
+            <ul>
+                <li>Optimized Oracle SQL transformation scripts by 27%, automating data extraction pipelines from PeopleSoft HCM</li>
+                <li>Developed unit tests for SQL transformations using parameterized mock datasets, increasing test coverage by 20%</li>
+                <li>Automated delivery of 15+ HR data exports using Python, streamlining Workday HCM migration (Agile)</li>
+            </ul>
+        </div>
+        <div class="experience">
+            <span class="company">Computer Science Club</span>
+            <span class="date">Sanford, FL</span><br>
+            <span class="position">President</span>
+            <span class="date">September 2022 – April 2023</span>
+            <ul>
+                <li>Led development of the Crooms TechFest mobile app, enabling 500+ attendees to access real-time event info and company profiles for career fair exhibitors</li>
+                <li>Revamped the collaborative coding initiative, increased active member participation by 58% over the previous year</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>PROJECTS</h2>
+        <div class="project">
+            <span class="project-title">Retriv.ai (In Progress)</span>
+            <div class="tech-stack">Vue.js, Firebase, Vuex, DeepSeek AI</div>
+            <ul>
+                <li>Co-developing an AI-powered study platform combating student procrastination through smart scheduling and retention techniques</li>
+                <li>Engineered custom prompt engineering pipeline for DeepSeek AI API, achieving 87% relevance score in generating study materials from uploaded content</li>
+                <li>Implemented WebSpeech API for speech-to-text functionality with 94% accuracy rate across 8 languages</li>
+            </ul>
+        </div>
+        <div class="project">
+            <span class="project-title">LyricLingo</span>
+            <div class="tech-stack">React, Node.js, MongoDB, Express, Redis, JavaScript</div>
+            <ul>
+                <li>Designed RESTful API architecture with JWT-Auth and service layer separation, integrating Spotify, Genius, and DeepL to deliver real-time lyric translations across 9+ languages with 95% accuracy</li>
+                <li>Engineered language auto-detection and lyric deduplication using Map/Set structures, reducing API costs by 40%</li>
+                <li>Built a robust NLP pipeline with Hugging Face RoBERTa for sentiment analysis (82% accuracy)</li>
+                <li>Implemented Redis caching for flashcards and sentiment analysis, reducing load times from 3+ seconds to under 200ms</li>
+                <li>Deployed to https://lyriclingo.vercel.app</li>
+            </ul>
+        </div>
+        <div class="project">
+            <span class="project-title">Slumber</span>
+            <div class="tech-stack">React, Next.js, TypeScript, Tailwind CSS</div>
+            <ul>
+                <li>Developed a sleep optimization tool to help users identify optimal bedtime and wake-up times</li>
+                <li>Built React components with TypeScript and custom hooks for efficient time calculations and persistent user preferences</li>
+                <li>Created procedurally generated animations using HTML Canvas, reducing rendering overhead by 30%</li>
+                <li>Deployed to https://slumber-nine.vercel.app</li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>
