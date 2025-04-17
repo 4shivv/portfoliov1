@@ -258,7 +258,13 @@ p {
   position: relative;
 }
 
-/* Nav Logo styles - no pulse effect */
+/* Nav Controls */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 2rem;
+}
 
 .nav-links {
   display: flex;
@@ -293,7 +299,6 @@ p {
 }
 
 .theme-toggle {
-  margin-left: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -313,8 +318,12 @@ p {
   background: none;
   border: none;
   color: var(--text-color);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Hero Section */
@@ -1041,8 +1050,12 @@ footer {
     font-size: 1.3rem;
   }
   
+  .nav-controls {
+    margin-left: 0;
+  }
+  
   .mobile-menu-btn {
-    display: block;
+    display: flex;
   }
   
   .nav-links {
@@ -1071,8 +1084,8 @@ footer {
     border-bottom: 1px solid var(--border-color);
   }
   
-  .theme-toggle {
-    margin-left: 1rem;
+  .scroll-indicator {
+    display: none;
   }
   
   .project-grid {
