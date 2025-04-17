@@ -1,203 +1,313 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Theme handling
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
+// DOM Elements
+const progressBar = document.getElementById('progress-bar');
+const navbar = document.getElementById('navbar');
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navLinks = document.querySelector('.nav-links');
+const cursorFollower = document.querySelector('.cursor-follower');
+const typingText = document.getElementById('typing-text');
+const backToTop = document.querySelector('.back-to-top');
+const scrollIndicator = document.querySelector('.scroll-indicator');
+
+// Typing effect text options
+const typingOptions = ['CS Student', 'Full-Stack Dev', 'Problem Solver', 'AI Enthusiast'];
+let optionIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingTimeout;
+
+// Theme initialization
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+if (savedTheme === 'dark') {
+    themeIcon.classList.remove('fa-moon');
+    themeIcon.classList.add('fa-sun');
+}
+
+// ===== Event Listeners =====
+
+// Load event
+window.addEventListener('load', () => {
+    // Initialize progress bar
+    updateProgressBar();
     
-    // Check for saved theme preference or use preferred color scheme
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Initialize active nav link
+    setActiveNavLink();
     
-    // Apply theme
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeIcon.classList.replace('fa-moon', 'fa-sun');
+    // Start typing effect
+    typeWriter();
+    
+    // Initialize skill bars animation
+    initSkillBars();
+    
+    // Trigger animations
+    fadeInElements();
+});
+
+// Scroll event
+window.addEventListener('scroll', () => {
+    // Update progress bar
+    updateProgressBar();
+    
+    // Toggle navbar visibility
+    toggleNavbar();
+    
+    // Update active nav link
+    setActiveNavLink();
+    
+    // Trigger animations for visible elements
+    fadeInElements();
+});
+
+// Theme toggle
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    if (newTheme === 'dark') {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
     }
-    
-    // Toggle theme
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        if (currentTheme === 'dark') {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light');
-            themeIcon.classList.replace('fa-sun', 'fa-moon');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            themeIcon.classList.replace('fa-moon', 'fa-sun');
-        }
+});
+
+// Mobile menu
+mobileMenuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+    mobileMenuBtn.querySelector('i').classList.toggle('fa-xmark');
+});
+
+// Mouse move for cursor follower
+document.addEventListener('mousemove', (e) => {
+    if (window.innerWidth > 768) {
+        cursorFollower.style.display = 'block';
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
+    } else {
+        cursorFollower.style.display = 'none';
+    }
+});
+
+// Mouse interactions for cursor follower
+document.addEventListener('mousedown', () => {
+    cursorFollower.classList.add('active');
+});
+
+document.addEventListener('mouseup', () => {
+    cursorFollower.classList.remove('active');
+});
+
+document.querySelectorAll('a, button, .card-hover').forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursorFollower.classList.add('active');
     });
     
-    // Scroll progress bar
-    const progressBar = document.getElementById('progress-bar');
-    
-    function updateProgressBar() {
-        const scrollTop = window.scrollY;
-        const scrollHeight = document.documentElement.scrollHeight;
-        const clientHeight = document.documentElement.clientHeight;
-        const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-        
-        // Apply a slight delay with requestAnimationFrame for smoother updates
-        requestAnimationFrame(() => {
-            if (progressBar) {
-                progressBar.style.width = scrollPercentage + '%';
-                
-                // Add a pulse animation when reaching milestones
-                if (scrollPercentage > 25 && scrollPercentage < 26 || 
-                    scrollPercentage > 50 && scrollPercentage < 51 || 
-                    scrollPercentage > 75 && scrollPercentage < 76 || 
-                    scrollPercentage > 95 && scrollPercentage < 96) {
-                    progressBar.classList.add('pulse');
-                    setTimeout(() => {
-                        progressBar.classList.remove('pulse');
-                    }, 800);
-                }
-            }
-        });
-    }
-    
-    window.addEventListener('scroll', updateProgressBar);
-    
-    // Hide/show navbar on scroll
-    const navbar = document.getElementById('navbar');
-    let lastScrollY = window.scrollY;
-    
-    function handleNavbar() {
-        const scrollY = window.scrollY;
-        
-        // Show navbar at top of page or when scrolling up
-        if (navbar) {
-            if (scrollY < 150 || scrollY < lastScrollY) {
-                navbar.classList.remove('hidden');
-            } else {
-                navbar.classList.add('hidden');
-            }
-        }
-        
-        lastScrollY = scrollY;
-    }
-    
-    window.addEventListener('scroll', handleNavbar);
-    
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-    }
-    
-    // Close mobile menu when a link is clicked
-    const navLinkItems = document.querySelectorAll('.nav-links a');
-    navLinkItems.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
+    element.addEventListener('mouseleave', () => {
+        cursorFollower.classList.remove('active');
     });
-    
-    // Smooth scrolling for navigation
-    const links = document.querySelectorAll('a[href^="#"]');
-    
-    for (const link of links) {
-        link.addEventListener('click', (e) => {
+});
+
+// Scroll to section from navigation
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        if (!link.hasAttribute('target')) {
             e.preventDefault();
-            
             const targetId = link.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+            if (targetId.startsWith('#')) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                }
             }
+        }
+    });
+});
+
+// Scroll indicator click
+if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', () => {
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            window.scrollTo({
+                top: skillsSection.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        }
+    });
+}
+
+// Back to top
+if (backToTop) {
+    backToTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
+    });
+}
+
+// ===== Functions =====
+
+// Update progress bar
+function updateProgressBar() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    progressBar.style.width = scrolled + '%';
+    
+    // Add pulse effect when reaching sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        const position = section.getBoundingClientRect();
+        if (position.top < 100 && position.bottom > 100) {
+            progressBar.classList.add('pulse');
+            setTimeout(() => {
+                progressBar.classList.remove('pulse');
+            }, 500);
+        }
+    });
+}
+
+// Toggle navbar visibility
+let lastScrollTop = 0;
+function toggleNavbar() {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 150) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
     }
     
-    // Make elements in the initial viewport visible immediately
-    function handleInitialVisibility() {
-        const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
+    if (currentScroll > lastScrollTop && currentScroll > 300) {
+        navbar.classList.add('hidden');
+    } else {
+        navbar.classList.remove('hidden');
+    }
+    
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+}
+
+// Set active nav link
+function setActiveNavLink() {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
         
-        fadeElements.forEach(element => {
-            // Check if element is in viewport on page load
-            const rect = element.getBoundingClientRect();
-            const isInViewport = (
-                rect.top <= window.innerHeight &&
-                rect.bottom >= 0
-            );
-            
-            // Make elements in viewport visible immediately
-            if (isInViewport) {
-                element.classList.add('visible');
-            }
-        });
-    }
-    
-    // Run once immediately to handle elements in the initial viewport
-    handleInitialVisibility();
-    
-    // Setup Intersection Observer for scroll animations
-    const observerOptions = {
-        root: null, // Use viewport as root
-        rootMargin: '0px',
-        threshold: 0.15 // Element is considered "visible" when 15% is in view
-    };
-    
-    // Create observer instance
-    const fadeObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Stop observing once it's visible
-            }
-        });
-    }, observerOptions);
-    
-    // Observe all elements with fade-in classes
-    const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
-    fadeElements.forEach(element => {
-        // Skip elements that are already visible
-        if (!element.classList.contains('visible')) {
-            fadeObserver.observe(element);
+        if (pageYOffset >= sectionTop - 150) {
+            current = section.getAttribute('id');
         }
     });
     
-    // Highlight active section in navbar
-    function highlightNavigation() {
-        const scrollY = window.pageYOffset;
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Typing effect
+function typeWriter() {
+    const currentOption = typingOptions[optionIndex];
+    
+    if (isDeleting) {
+        // Delete text
+        typingText.textContent = currentOption.substring(0, charIndex - 1);
+        charIndex--;
         
-        // Get all sections
-        const sections = document.querySelectorAll('section');
+        if (charIndex === 0) {
+            isDeleting = false;
+            optionIndex = (optionIndex + 1) % typingOptions.length;
+            typingTimeout = setTimeout(typeWriter, 500);
+            return;
+        }
         
-        // Find the current section
-        sections.forEach(section => {
-            const sectionHeight = section.offsetHeight;
-            const sectionTop = section.offsetTop - 100;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                // Remove active class from all links
-                navLinkItems.forEach(link => link.classList.remove('active'));
-                
-                // Add active class to current section link
-                const activeLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
+        typingTimeout = setTimeout(typeWriter, 50);
+    } else {
+        // Type text
+        typingText.textContent = currentOption.substring(0, charIndex + 1);
+        charIndex++;
+        
+        if (charIndex === currentOption.length) {
+            isDeleting = true;
+            typingTimeout = setTimeout(typeWriter, 1500);
+            return;
+        }
+        
+        typingTimeout = setTimeout(typeWriter, 150);
+    }
+}
+
+// Initialize skill bars
+function initSkillBars() {
+    const progressBars = document.querySelectorAll('.progress');
+    
+    progressBars.forEach(bar => {
+        const percent = bar.getAttribute('data-percent');
+        
+        // Start animation when visible
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        bar.style.width = percent;
+                    }, 300);
+                    observer.unobserve(entry.target);
                 }
-            }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(bar);
+    });
+}
+
+// Fade in animations for elements
+function fadeInElements() {
+    const fadeElements = document.querySelectorAll('.section-title, .skill-category, .project-card, .timeline-item, .contact-info-section');
+    
+    fadeElements.forEach(element => {
+        const position = element.getBoundingClientRect();
+        
+        // Check if element is in viewport
+        if (position.top < window.innerHeight && position.bottom >= 0) {
+            element.classList.add('visible');
+        }
+    });
+}
+
+// Project card hover effect
+document.querySelectorAll('.project-card').forEach(card => {
+    const header = card.querySelector('.project-header');
+    const link = card.querySelector('.project-link');
+    
+    if (link) {
+        card.addEventListener('mouseenter', () => {
+            link.style.opacity = '1';
         });
         
-        // Special case for header
-        if (sections.length > 0 && scrollY < document.querySelector('section').offsetTop - 100) {
-            navLinkItems.forEach(link => link.classList.remove('active'));
-        }
+        card.addEventListener('mouseleave', () => {
+            link.style.opacity = '0.7';
+        });
     }
-    
-    // Run highlight navigation once on load and add scroll listener
-    highlightNavigation();
-    window.addEventListener('scroll', highlightNavigation);
 });

@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shivaganesh Nagamandla | Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-modern.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+    
     <!-- Progress Bar -->
     <div class="progress-container">
         <div class="progress-bar" id="progress-bar"></div>
     </div>
 
-    
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">SN</div>
+    <nav class="navbar glass-effect" id="navbar">
+        <div class="nav-logo pulse-effect">SN</div>
         <div class="nav-links">
-            <a href="#skills">Skills</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="assets/shivaganesh_nagamandla_resume.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Resume</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#experience" class="nav-link">Experience</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="assets/shivaganesh_nagamandla_resume.pdf" target="_blank" class="nav-link"><i class="fas fa-file-pdf"></i> Resume</a>
         </div>
         <div class="theme-toggle" id="theme-toggle">
             <i class="fas fa-moon" id="theme-icon"></i>
@@ -32,163 +33,308 @@
         </button>
     </nav>
 
-    <!-- Header -->
-    <header>
+    <!-- Hero Section -->
+    <header class="hero-section">
         <div class="container">
-            <h1 class="fade-in">Shivaganesh Nagamandla</h1>
-            <p class="subtitle fade-in delay-100">Software Engineer | CS Student</p>
-            <div class="about-me fade-in delay-200">
-                <p>I'm a software engineer passionate about building efficient, scalable systems and innovative applications. Specializing in full-stack development with expertise in both front-end and back-end technologies, I create solutions that solve real-world problems. Currently focused on AI-powered applications and microservice architectures.</p>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="glitch-effect" data-text="Shivaganesh Nagamandla">Shivaganesh Nagamandla</h1>
+                    <div class="typewriter">
+                        <p class="subtitle">Software Engineer | <span class="typing" id="typing-text"></span></p>
+                    </div>
+                    <div class="about-me reveal-text">
+                        <p>I'm a software engineer passionate about building efficient, scalable systems and innovative applications. Specializing in full-stack development with expertise in both front-end and back-end technologies, I create solutions that solve real-world problems. Currently focused on AI-powered applications and microservice architectures.</p>
+                    </div>
+                    <div class="contact-info">
+                        <a href="mailto:shiv.nagamandla@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> shiv.nagamandla@gmail.com</a>
+                        <a href="https://linkedin.com/in/shivaganesh-nagamandla" target="_blank" class="contact-link"><i class="fab fa-linkedin"></i> linkedin.com/in/shivaganesh-nagamandla</a>
+                        <a href="https://github.com/4shivv" target="_blank" class="contact-link"><i class="fab fa-github"></i> github.com/4shivv</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="code-window">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="window-title">about.js</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code>const developer = {
+  name: "Shivaganesh Nagamandla",
+  title: "Software Engineer",
+  languages: ["Python", "Java", "JavaScript"],
+  specialties: [
+    "Full-Stack Development",
+    "Microservices",
+    "AI Applications"
+  ],
+  currentFocus: "Building scalable systems",
+  contactMe: () => "Let's connect!"
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="contact-info fade-in delay-300">
-                <a href="mailto:shiv.nagamandla@gmail.com"><i class="fas fa-envelope"></i> shiv.nagamandla@gmail.com</a>
-                <a href="https://linkedin.com/in/shivaganesh-nagamandla" target="_blank"><i class="fab fa-linkedin"></i> linkedin.com/in/shivaganesh-nagamandla</a>
-                <a href="https://github.com/4shivv" target="_blank"><i class="fab fa-github"></i> github.com/4shivv</a>
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+                <i class="fas fa-chevron-down"></i>
             </div>
         </div>
     </header>
 
     <!-- Skills Section -->
-    <section id="skills">
+    <section id="skills" class="section-padding">
         <div class="container">
-            <h2 class="fade-in">Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category fade-in delay-100">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
                     <h3>Certifications</h3>
                     <p>Microsoft Office, Microsoft Excel, Operating Systems, AI Associate</p>
                 </div>
-                <div class="skill-category fade-in delay-200">
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
                     <h3>Programming Languages</h3>
                     <p>Python, Java, JavaScript (ES6+), SQL, C/C++, HTML5, CSS3</p>
                 </div>
-                <div class="skill-category fade-in delay-300">
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
                     <h3>Frameworks</h3>
                     <p>React.js, Next.js, Vue.js, Node.js, Express.js, NumPy, Scikit-learn, Qiskit, Pandas</p>
                 </div>
-                <div class="skill-category fade-in delay-400">
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
                     <h3>Developer Tools</h3>
                     <p>Git/Github/GitLab, Postman, Jira, Cursor, Visual Studio, PyCharm, CLion, Eclipse</p>
+                </div>
+            </div>
+            <div class="skill-visual">
+                <div class="skill-bars">
+                    <div class="skill-bar">
+                        <span class="skill-name">Frontend</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">Backend</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">Database</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">DevOps</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="75%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Experience Section -->
-    <section id="experience">
+    <section id="experience" class="section-padding alt-section">
         <div class="container">
-            <h2 class="fade-in">Experience</h2>
-            
-            <div class="exp-item fade-in delay-100">
-                <div class="exp-header">
-                    <h3>Software Engineer Intern</h3>
-                    <p class="company">Hexaider Technologies</p>
-                    <p class="date-location">August 2024 – December 2024 | Maitland, FL</p>
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content card-hover">
+                        <div class="date-badge">Aug 2024 - Dec 2024</div>
+                        <h3>Software Engineer Intern</h3>
+                        <p class="company"><i class="fas fa-building"></i> Hexaider Technologies, Maitland, FL</p>
+                        <ul class="achievements">
+                            <li><span class="highlight">35%</span> latency reduction with Spring Boot booking APIs for flight reservation microservice</li>
+                            <li>Built Kafka consumer processing <span class="highlight">100K+</span> daily events across <span class="highlight">5+</span> microservices</li>
+                            <li>Optimized Dockerfiles, reducing image size by <span class="highlight">60%</span> and deployment time to <span class="highlight">15</span> minutes</li>
+                            <li>Collaborated in cross-functional code reviews to enforce design standards</li>
+                        </ul>
+                    </div>
                 </div>
-                <ul class="achievements">
-                    <li class="fade-in-right delay-200">Developed Spring Boot booking APIs for the flight reservation microservice, contributing to a 35% latency reduction</li>
-                    <li class="fade-in-right delay-300">Built Kafka consumer for the seat inventory service to process real-time reservation updates, streaming over 100K+ daily events across 5+ microservices</li>
-                    <li class="fade-in-right delay-400">Optimized Dockerfiles, reducing image size by 60% and AWS EC2 deployment time to 15 minutes</li>
-                    <li class="fade-in-right delay-500">Collaborated in cross-functional code reviews to enforce design standards and improve deployment reliability</li>
-                </ul>
-            </div>
-            
-            <div class="exp-item fade-in delay-100">
-                <div class="exp-header">
-                    <h3>Data Engineering Intern</h3>
-                    <p class="company">Hexaider Technologies</p>
-                    <p class="date-location">May 2024 – August 2024 | Maitland, FL</p>
+                <div class="timeline-item right">
+                    <div class="timeline-content card-hover">
+                        <div class="date-badge">May 2024 - Aug 2024</div>
+                        <h3>Data Engineering Intern</h3>
+                        <p class="company"><i class="fas fa-building"></i> Hexaider Technologies, Maitland, FL</p>
+                        <ul class="achievements">
+                            <li>Optimized Oracle SQL transformation scripts by <span class="highlight">27%</span>, automating data extraction</li>
+                            <li>Developed unit tests with parameterized mock datasets, increasing coverage by <span class="highlight">20%</span></li>
+                            <li>Automated delivery of <span class="highlight">15+</span> HR data exports using Python for Workday HCM migration</li>
+                        </ul>
+                    </div>
                 </div>
-                <ul class="achievements">
-                    <li class="fade-in-right delay-200">Optimized Oracle SQL transformation scripts by 27%, automating data extraction pipelines from PeopleSoft HCM</li>
-                    <li class="fade-in-right delay-300">Developed unit tests for SQL transformations using parameterized mock datasets, increasing test coverage by 20%</li>
-                    <li class="fade-in-right delay-400">Automated delivery of 15+ HR data exports using Python, streamlining Workday HCM migration (Agile)</li>
-                </ul>
-            </div>
-            
-            <div class="exp-item fade-in delay-100">
-                <div class="exp-header">
-                    <h3>President</h3>
-                    <p class="company">Computer Science Club</p>
-                    <p class="date-location">September 2022 – April 2023 | Sanford, FL</p>
+                <div class="timeline-item left">
+                    <div class="timeline-content card-hover">
+                        <div class="date-badge">Sep 2022 - Apr 2023</div>
+                        <h3>President</h3>
+                        <p class="company"><i class="fas fa-building"></i> Computer Science Club, Sanford, FL</p>
+                        <ul class="achievements">
+                            <li>Led development of mobile app for <span class="highlight">500+</span> TechFest attendees with real-time event info</li>
+                            <li>Revamped collaborative coding initiative, increasing participation by <span class="highlight">58%</span></li>
+                        </ul>
+                    </div>
                 </div>
-                <ul class="achievements">
-                    <li class="fade-in-right delay-200">Led development of the Crooms TechFest mobile app, enabling 500+ attendees to access real-time event info and company profiles for career fair exhibitors</li>
-                    <li class="fade-in-right delay-300">Revamped the collaborative coding initiative, increased active member participation by 58% over the previous year</li>
-                </ul>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects">
+    <section id="projects" class="section-padding">
         <div class="container">
-            <h2 class="fade-in">Projects</h2>
+            <h2 class="section-title">Projects</h2>
             
-            <div class="project-item fade-in delay-100">
-                <div class="project-header">
-                    <h3>Retriv.ai</h3>
-                    <span class="project-status">In Progress</span>
+            <div class="project-grid">
+                <div class="project-card card-hover">
+                    <div class="project-header">
+                        <h3>Retriv.ai</h3>
+                        <span class="project-status">In Progress</span>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">AI-powered study platform combating student procrastination through smart scheduling and retention techniques.</p>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-value">87%</span>
+                                <span class="stat-label">Relevance Score</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">94%</span>
+                                <span class="stat-label">Speech Accuracy</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">8</span>
+                                <span class="stat-label">Languages</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech">Vue.js</span>
+                            <span class="tech">Firebase</span>
+                            <span class="tech">Vuex</span>
+                            <span class="tech">DeepSeek AI</span>
+                        </div>
+                        <div class="project-features">
+                            <p><i class="fas fa-check-circle"></i> Custom prompt engineering pipeline</p>
+                            <p><i class="fas fa-check-circle"></i> WebSpeech API implementation</p>
+                            <p><i class="fas fa-check-circle"></i> Smart scheduling algorithms</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="tech-stack fade-in delay-200">
-                    <span class="tech">Vue.js</span>
-                    <span class="tech">Firebase</span>
-                    <span class="tech">Vuex</span>
-                    <span class="tech">DeepSeek AI</span>
+                
+                <div class="project-card card-hover">
+                    <div class="project-header">
+                        <h3>LyricLingo</h3>
+                        <a href="https://lyriclingo.vercel.app" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> View Project</a>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">Real-time lyric translation service integrating with Spotify, Genius, and DeepL APIs.</p>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-value">95%</span>
+                                <span class="stat-label">Translation Accuracy</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">40%</span>
+                                <span class="stat-label">API Cost Reduction</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">200ms</span>
+                                <span class="stat-label">Load Time</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech">React</span>
+                            <span class="tech">Node.js</span>
+                            <span class="tech">MongoDB</span>
+                            <span class="tech">Express</span>
+                            <span class="tech">Redis</span>
+                        </div>
+                        <div class="project-features">
+                            <p><i class="fas fa-check-circle"></i> RESTful API with JWT-Auth</p>
+                            <p><i class="fas fa-check-circle"></i> Language auto-detection</p>
+                            <p><i class="fas fa-check-circle"></i> NLP sentiment analysis (82% accuracy)</p>
+                        </div>
+                    </div>
                 </div>
-                <ul class="project-details">
-                    <li class="fade-in-right delay-200">Co-developing an AI-powered study platform combating student procrastination through smart scheduling and retention techniques</li>
-                    <li class="fade-in-right delay-300">Engineered custom prompt engineering pipeline for DeepSeek AI API, achieving 87% relevance score in generating study materials from uploaded content</li>
-                    <li class="fade-in-right delay-400">Implemented WebSpeech API for speech-to-text functionality with 94% accuracy rate across 8 languages</li>
-                </ul>
+                
+                <div class="project-card card-hover">
+                    <div class="project-header">
+                        <h3>Slumber</h3>
+                        <a href="https://slumber-nine.vercel.app" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> View Project</a>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">Sleep optimization tool to help users identify optimal bedtime and wake-up times.</p>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-value">30%</span>
+                                <span class="stat-label">Rendering Reduction</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech">React</span>
+                            <span class="tech">Next.js</span>
+                            <span class="tech">TypeScript</span>
+                            <span class="tech">Tailwind CSS</span>
+                        </div>
+                        <div class="project-features">
+                            <p><i class="fas fa-check-circle"></i> Custom React hooks</p>
+                            <p><i class="fas fa-check-circle"></i> Persistent user preferences</p>
+                            <p><i class="fas fa-check-circle"></i> Procedurally generated animations</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="project-item fade-in delay-100">
-                <div class="project-header">
-                    <h3>LyricLingo</h3>
-                    <a href="https://lyriclingo.vercel.app" target="_blank" class="project-link">https://lyriclingo.vercel.app</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding alt-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info-section">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:shiv.nagamandla@gmail.com">shiv.nagamandla@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://linkedin.com/in/shivaganesh-nagamandla" target="_blank">linkedin.com/in/shivaganesh-nagamandla</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <a href="https://github.com/4shivv" target="_blank">github.com/4shivv</a>
+                        </div>
+                    </div>
+                    <div class="contact-message">
+                        <p>I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+                    </div>
                 </div>
-                <div class="tech-stack fade-in delay-200">
-                    <span class="tech">React</span>
-                    <span class="tech">Node.js</span>
-                    <span class="tech">MongoDB</span>
-                    <span class="tech">Express</span>
-                    <span class="tech">Redis</span>
-                    <span class="tech">JavaScript</span>
-                </div>
-                <ul class="project-details">
-                    <li class="fade-in-right delay-200">Designed RESTful API architecture with JWT-Auth and service layer separation, integrating Spotify, Genius, and DeepL to deliver real-time lyric translations across 9+ languages with 95% accuracy</li>
-                    <li class="fade-in-right delay-300">Engineered language auto-detection and lyric deduplication using Map/Set structures, reducing API costs by 40%</li>
-                    <li class="fade-in-right delay-400">Built a robust NLP pipeline with Hugging Face RoBERTa for sentiment analysis (82% accuracy)</li>
-                    <li class="fade-in-right delay-500">Implemented Redis caching for flashcards and sentiment analysis, reducing load times 3+ seconds to under 200ms</li>
-                    <li class="fade-in-right delay-600">Deployed to https://lyriclingo.vercel.app</li>
-                </ul>
-            </div>
-            
-            <div class="project-item fade-in delay-100">
-                <div class="project-header">
-                    <h3>Slumber</h3>
-                    <a href="https://slumber-nine.vercel.app" target="_blank" class="project-link">https://slumber-nine.vercel.app</a>
-                </div>
-                <div class="tech-stack fade-in delay-200">
-                    <span class="tech">React</span>
-                    <span class="tech">Next.js</span>
-                    <span class="tech">TypeScript</span>
-                    <span class="tech">Tailwind CSS</span>
-                </div>
-                <ul class="project-details">
-                    <li class="fade-in-right delay-200">Developed a sleep optimization tool to help users identify optimal bedtime and wake-up times</li>
-                    <li class="fade-in-right delay-300">Built React components with TypeScript and custom hooks for efficient time calculations and persistent user preferences</li>
-                    <li class="fade-in-right delay-400">Created procedurally generated animations using HTML Canvas, reducing rendering overhead by 30%</li>
-                    <li class="fade-in-right delay-500">Deployed to https://slumber-nine.vercel.app</li>
-                </ul>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="glass-effect">
         <div class="container">
             <p>&copy; 2025 Shivaganesh Nagamandla</p>
+            <div class="footer-links">
+                <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i> Back to Top</a>
+            </div>
         </div>
     </footer>
 
