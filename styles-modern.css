@@ -70,7 +70,6 @@ body {
   padding-top: var(--navbar-height);
   transition: background-color 0.3s, color 0.3s;
   overflow-x: hidden;
-  cursor: none;
 }
 
 .container {
@@ -188,25 +187,13 @@ p {
   border-radius: 3px;
 }
 
-/* Cursor Follower */
+/* Cursor Follower - Disabled */
 .cursor-follower {
-  position: fixed;
-  width: 30px;
-  height: 30px;
-  border: 2px solid var(--accent-color);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  opacity: 0.6;
-  transition: width 0.3s, height 0.3s, opacity 0.3s, transform 0.1s;
+  display: none;
 }
 
 .cursor-follower.active {
-  width: 20px;
-  height: 20px;
-  opacity: 0.9;
-  transform: translate(-50%, -50%) scale(1.5);
+  display: none;
 }
 
 .progress-bar {

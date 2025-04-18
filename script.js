@@ -5,7 +5,6 @@ const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
-const cursorFollower = document.querySelector('.cursor-follower');
 const typingText = document.getElementById('typing-text');
 const backToTop = document.querySelector('.back-to-top');
 const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -82,36 +81,6 @@ mobileMenuBtn.addEventListener('click', () => {
     navLinks.classList.toggle('active');
     mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
     mobileMenuBtn.querySelector('i').classList.toggle('fa-xmark');
-});
-
-// Mouse move for cursor follower
-document.addEventListener('mousemove', (e) => {
-    if (window.innerWidth > 768) {
-        cursorFollower.style.display = 'block';
-        cursorFollower.style.left = e.clientX + 'px';
-        cursorFollower.style.top = e.clientY + 'px';
-    } else {
-        cursorFollower.style.display = 'none';
-    }
-});
-
-// Mouse interactions for cursor follower
-document.addEventListener('mousedown', () => {
-    cursorFollower.classList.add('active');
-});
-
-document.addEventListener('mouseup', () => {
-    cursorFollower.classList.remove('active');
-});
-
-document.querySelectorAll('a, button, .card-hover').forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursorFollower.classList.add('active');
-    });
-    
-    element.addEventListener('mouseleave', () => {
-        cursorFollower.classList.remove('active');
-    });
 });
 
 // Scroll to section from navigation
