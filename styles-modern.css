@@ -70,6 +70,7 @@ body {
   padding-top: var(--navbar-height);
   transition: background-color 0.3s, color 0.3s;
   overflow-x: hidden;
+  cursor: none;
 }
 
 .container {
@@ -83,6 +84,7 @@ a {
   color: var(--link-color);
   text-decoration: none;
   transition: color 0.2s, transform 0.3s;
+  cursor: pointer;
 }
 
 a:hover {
@@ -277,6 +279,7 @@ p {
   padding: 0.5rem 0;
   position: relative;
   transition: color 0.3s;
+  cursor: pointer;
 }
 
 .nav-link::after {
@@ -1032,6 +1035,14 @@ footer {
 @media (max-width: 768px) {
   :root {
     --navbar-height: 60px;
+  }
+  
+  body {
+    cursor: auto; /* Restore default cursor on mobile */
+  }
+  
+  a, button, .nav-link, .theme-toggle, .mobile-menu-btn {
+    cursor: pointer; /* Ensure clickable elements show pointer on mobile */
   }
   
   h1 {

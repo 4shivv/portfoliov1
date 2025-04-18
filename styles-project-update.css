@@ -1,0 +1,32 @@
+/* Project Image Styles */
+.project-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.1);
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-thumbnail {
+  transform: scale(1.05);
+}
+
+/* Media Queries for Project Images */
+@media (max-width: 768px) {
+  .project-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-image {
+    height: 160px;
+  }
+}
