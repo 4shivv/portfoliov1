@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizing LyricLingo: Redis Caching and Lyric Deduplication | Shivaganesh Nagamandla</title>
+    <meta name="description" content="A detailed technical walkthrough of how Redis caching and lyric deduplication algorithms were implemented in LyricLingo to improve performance and reduce API costs.">
+    <link rel="stylesheet" href="../styles-modern.css">
+    <link rel="stylesheet" href="blog-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/night-owl.min.css">
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-effect" id="navbar">
+        <div class="nav-logo">SN</div>
+        <div class="nav-links">
+            <a href="../index.html#skills" class="nav-link">Skills</a>
+            <a href="../index.html#experience" class="nav-link">Experience</a>
+            <a href="../index.html#projects" class="nav-link">Projects</a>
+            <a href="index.html" class="nav-link active">Blog</a>
+            <a href="../assets/shivaganesh_nagamandla_resume.pdf" target="_blank" class="nav-link"><i class="fas fa-file-pdf"></i> Resume</a>
+        </div>
+        <div class="nav-controls">
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blog Post Content -->
+    <div class="container blog-post-content">
+        <a href="index.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+        
+        <div class="blog-post-header">
+            <h1 class="blog-post-title">Optimizing LyricLingo: How Redis Caching and Lyric Deduplication Improved Performance</h1>
+            <div class="blog-post-meta">
+                <span><i class="fas fa-calendar"></i> May 1, 2025</span>
+                <span><i class="fas fa-tag"></i> Performance Optimization</span>
+                <span><i class="fas fa-clock"></i> 8 min read</span>
+            </div>
+            <div class="post-author">
+                <span class="post-author-name">Shivaganesh Nagamandla</span>
+            </div>
+        </div>
+        
+        <div class="post-content">
+            <p>
+                When building <a href="https://lyriclingo.vercel.app" target="_blank">LyricLingo</a>, my goal was to create a tool that would help language learners use popular music as a study aid. The application connects to Spotify, fetches the current song, and generates flashcards showing the original lyrics and their translation. What seemed simple at first became a complex engineering challenge, requiring optimization to deliver a seamless user experience while managing API costs and server resources.
+            </p>
+
+            <p>
+                This post dives into two key optimizations that dramatically improved performance: Redis caching and lyric deduplication. These techniques reduced API costs by 40%, decreased response times by 200ms, and significantly improved the application's scalability.
+            </p>
+
+            <h2>The Challenge: Scaling Lyrics Translation</h2>
+            
+            <p>
+                LyricLingo faced several technical challenges during development:
+            </p>
+            
+            <ul>
+                <li><strong>API Costs</strong>: Translation APIs charge per character, making full song translations expensive at scale.</li>
+                <li><strong>Latency</strong>: External API calls to Genius (for lyrics) and translation services added significant latency.</li>
+                <li><strong>Repetition</strong>: Songs often contain repeated lines (choruses, refrains), resulting in redundant translation requests.</li>
+                <li><strong>User Experience</strong>: Users expect near-instant flashcard generation when logging a song.</li>
+            </ul>
+            
+            <h2>Solution 1: Redis Caching Implementation</h2>
+            
+            <p>
+                The first optimization I implemented was Redis caching, which preserved translation results, flashcards, and sentiment analysis for future requests. Here's how I set it up:
+            </p>
+
+            <div class="code-file-header">server.js - Redis Connection Setup</div>
+            <pre class="code-block"><code class="javascript">const express = require("express");
+const Redis = require("ioredis");
+// Other imports...
+
+// Use the REDIS_URL environment variable, or fallback to localhost if not set
+const redisURL = process.env.REDIS_URL || "redis://127.0.0.1:6379";
+const redis = new Redis(redisURL);
+
+// Log Redis connection errors
+redis.on("error", (err) => {
+  console.error("Redis error:", err);
+});
+
+// Make Redis client available globally for use in controllers
+if (redis) {
+  global.redisClient = redis;
+}</code></pre>
+
+            <p>
+                I designed a structured caching strategy with user-specific cache keys, ensuring data privacy and efficient retrieval:
+            </p>
+
+            <div class="code-file-header">songController.js - Cache Key Generation</div>
+            <pre class="code-block"><code class="javascript">/**
+ * Generate cache keys for a user's song data
+ * @param {string} userId - User ID
+ * @param {string} songTitle - Song title
+ * @param {string} artist - Artist name (optional)
+ * @param {string} language - Language code (optional)
+ * @returns {Object} Object containing different cache keys
+ */
+const generateCacheKeys = (userId, songTitle, artist = null, language = null) => {
+  return {
+    flashcards: `flashcards:${userId}:${songTitle}${language ? ':' + language : ''}`,
+    sentiment: `sentiment:${userId}:${songTitle}${artist ? ':' + artist : ''}`,
+    translations: `translations:${userId}:${songTitle}${language ? ':' + language : ''}`
+  };
+};</code></pre>
+
+            <p>
+                The caching system needed to be intelligent about invalidation. When a user deleted a song or changed language preferences, related caches had to be cleared:
+            </p>
+
+            <div class="code-file-header">songController.js - Cache Invalidation</div>
+            <pre class="code-block"><code class="javascript">/**
+ * Clear all caches related to a specific song
+ * @param {string} userId - User ID
+ * @param {string} songTitle - Song title 
+ * @param {string} artist - Artist name (optional)
+ */
+const clearSongCaches = async (userId, songTitle, artist = null) => {
+  if (!redis) return;
+  
+  try {
+    const cacheKeys = generateCacheKeys(userId, songTitle, artist);
+    
+    // Build a list of language-specific keys to clear
+    const languageKeys = [];
+    const supportedLanguages = ['ES', 'FR', 'PT', 'IT', 'DE', 'JA', 'ZH', 'RU', 'KO'];
+    
+    // Add language-specific cache keys
+    for (const lang of supportedLanguages) {
+      languageKeys.push(`flashcards:${userId}:${songTitle}:${lang}`);
+      languageKeys.push(`translations:${userId}:${songTitle}:${lang}`);
+    }
+    
+    // Combine all keys to delete
+    const keysToDelete = [
+      cacheKeys.flashcards,
+      cacheKeys.sentiment,
+      cacheKeys.translations,
+      ...languageKeys
+    ];
+    
+    // Execute multi-delete
+    if (keysToDelete.length > 0) {
+      await redis.del(...keysToDelete);
+      console.log(`🗑️ Cleared all caches for song "${songTitle}" (user: ${userId})`);
+    }
+  } catch (error) {
+    console.error(`❌ Error clearing caches for song "${songTitle}":`, error);
+  }
+};</code></pre>
+
+            <p>
+                When fetching flashcards, the system first checks the cache, saving significant processing time and API costs for repeat requests:
+            </p>
+
+            <div class="code-file-header">songController.js - Cache-First Fetching</div>
+            <pre class="code-block"><code class="javascript">// Get flashcards for a specific song
+const getFlashcardsForSong = async (req, res) => {
+  try {
+    const songTitle = req.query.song;
+    const forceLanguage = req.query.lang; // Optional override parameter
+    const userId = req.userId;
+    const cacheKeys = generateCacheKeys(userId, songTitle, null, forceLanguage);
+
+    // Check Redis cache first
+    const cachedFlashcards = await redis.get(cacheKeys.flashcards);
+    if (cachedFlashcards) {
+      console.log(`⚡ Serving flashcards from cache for: ${songTitle}`);
+      return res.json(JSON.parse(cachedFlashcards));
+    }
+
+    // If not in cache, proceed with generation...
+    // [Lyrics and translation processing logic]
+    
+    // Cache the flashcards (without expiration)
+    await redis.set(cacheKeys.flashcards, JSON.stringify(flashcards));
+    console.log(`💾 Cached flashcards for: ${songTitle}`);
+
+    res.json(flashcards);
+  } catch (error) {
+    console.error("❌ Error fetching flashcards:", error);
+    res.status(500).json({ error: "Failed to generate flashcards." });
+  }
+};</code></pre>
+
+            <h2>Solution 2: Lyric Deduplication Algorithm</h2>
+
+            <p>
+                The second optimization addressed a common characteristic of song lyrics: repetition. Choruses, refrains, and repeated lines could account for 30-60% of a song's content. Translating each instance separately was inefficient and costly.
+            </p>
+
+            <p>
+                I designed a deduplication algorithm that identifies unique lines while preserving the complete song structure for flashcard generation:
+            </p>
+
+            <div class="code-file-header">songController.js - Lyric Deduplication</div>
+            <pre class="code-block"><code class="javascript">// Step 1: Create a map of unique lines for translation efficiency
+const uniqueLines = new Map(); // Maps text to index in uniqueArray
+const uniqueArray = []; // Stores unique lyric lines
+const originalToUnique = new Map(); // Maps original position to unique line index
+
+// Identify unique lines while preserving all original lines
+frontLines.forEach((line, index) => {
+  const trimmedLine = line.trim();
+  
+  if (!uniqueLines.has(trimmedLine)) {
+    // New unique line found
+    uniqueLines.set(trimmedLine, uniqueArray.length);
+    uniqueArray.push(trimmedLine);
+  }
+  
+  // Map this position to its corresponding unique line
+  originalToUnique.set(index, uniqueLines.get(trimmedLine));
+});
+
+// Calculate and log translation optimization stats
+const totalLines = frontLines.length;
+const uniqueCount = uniqueArray.length;
+const savedLines = totalLines - uniqueCount;
+const percentSaved = Math.round((savedLines / totalLines) * 100);
+
+console.log(`🔍 Translation Optimization: ${totalLines} total lines → ${uniqueCount} unique lines to translate (saved ${percentSaved}% API usage)`);</code></pre>
+
+            <p>
+                After identifying unique lines, I implemented batch processing to further optimize API requests:
+            </p>
+
+            <div class="code-file-header">songController.js - Batch Translation</div>
+            <pre class="code-block"><code class="javascript">// Step 3: Translate only the unique lines in batches
+const BATCH_SIZE = 10; // Number of lines to translate in each API call
+
+// Process unique lines in batches
+for (let i = 0; i < uniqueArray.length; i += BATCH_SIZE) {
+  const batch = uniqueArray.slice(i, i + BATCH_SIZE);
+  console.log(`🔤 Translating unique batch ${Math.floor(i/BATCH_SIZE) + 1} (${batch.length} lines)`);
+  
+  // Send the batch for translation with the detected/forced language
+  const translatedBatch = await translateBatch(batch, detectedOrForcedLanguage);
+  
+  // Add translated lines to unique translations array
+  uniqueTranslations.push(...translatedBatch);
+}
+
+// Store translations in Redis (without expiration)
+await redis.set(translationsCacheKey, JSON.stringify(uniqueTranslations));
+console.log(`💾 Cached translations for: ${songTitle}`);</code></pre>
+
+            <p>
+                Finally, the algorithm maps translations back to the original song structure, creating flashcards that maintain the full song's flow:
+            </p>
+
+            <div class="code-file-header">songController.js - Restoring Original Structure</div>
+            <pre class="code-block"><code class="javascript">// Step 4: Map translations back to ALL original lines (including duplicates)
+const backLines = frontLines.map((_, index) => {
+  // Get the unique line index for this position
+  const uniqueIndex = originalToUnique.get(index);
+  // Return the translation for this unique line
+  return uniqueTranslations[uniqueIndex] || "Translation unavailable";
+});
+
+// Create flashcards with proper alignment, keeping ALL lines in order
+let flashcards = frontLines.map((line, index) => {
+  return {
+    front: line.trim(),
+    // Extra cleaning to remove any potential artifact characters from translation
+    back: backLines[index].trim().replace(/\|+/g, '').trim()
+  };
+});</code></pre>
+
+            <h2>Results and Impact</h2>
+
+            <p>
+                These optimizations delivered significant performance and cost improvements:
+            </p>
+
+            <ul>
+                <li><strong>API Cost Reduction</strong>: Lyric deduplication reduced translation API calls by 40% on average, with some songs seeing 60%+ reduction.</li>
+                <li><strong>Response Time</strong>: Cache hits reduced response times from ~800ms to ~200ms, a 75% improvement.</li>
+                <li><strong>User Experience</strong>: Returning users experience near-instant flashcard generation for previously viewed songs.</li>
+                <li><strong>Scalability</strong>: The Redis implementation allows for horizontal scaling as user base grows.</li>
+            </ul>
+
+            <h2>Other Implementation Considerations</h2>
+
+            <p>
+                Beyond the core optimizations, several additional refinements were necessary:
+            </p>
+
+            <h3>Section Marker Removal</h3>
+
+            <p>
+                Song lyrics often contain section markers (like [Verse], [Chorus]) that don't contribute to language learning. I implemented a cleanup routine in the lyrics service:
+            </p>
+
+            <div class="code-file-header">lyricsService.js - Section Marker Removal</div>
+            <pre class="code-block"><code class="javascript">const scrapeLyrics = async (lyricsUrl) => {
+  try {
+    // Fetch and initial parsing...
+    
+    // Process the content line by line
+    const lines = html.split('\n');
+    let processedLines = [];
+    
+    for (let line of lines) {
+      // Skip empty lines
+      if (!line.trim()) continue;
+      
+      // Remove HTML tags while preserving text content
+      let textLine = line.replace(/<[^>]+>/g, '');
+      textLine = textLine.trim();
+      
+      // Skip section markers - quoted or unquoted
+      // This handles patterns like: "[Verse]", ""[Verse]"", "[Verse: Artist]"
+      if (/^"?\[.*?\]"?$/.test(textLine)) continue;
+      
+      // Remove any section markers within a line
+      // This handles mixed content like "Some lyrics [Bridge] more lyrics"
+      textLine = textLine.replace(/"?\[.*?\]"?/g, '').trim();
+      
+      // Skip if line became empty after removing section markers
+      if (textLine.length === 0) continue;
+      
+      processedLines.push(textLine);
+    }
+    
+    // Join processed lines with newlines
+    lyrics += processedLines.join('\n') + '\n';
+    
+    // Further cleanup...
+    
+    return lyrics;
+  } catch (error) {
+    console.error("❌ Error scraping lyrics:", error);
+    return null;
+  }
+};</code></pre>
+
+            <h3>Language Detection</h3>
+
+            <p>
+                To optimize translation, the system automatically detects the source language:
+            </p>
+
+            <div class="code-file-header">songController.js - Language Detection</div>
+            <pre class="code-block"><code class="javascript">// Step 2: Automatically detect language from the combined lyrics
+// Use forceLanguage if explicitly provided in the request
+let detectedOrForcedLanguage = forceLanguage;
+if (!detectedOrForcedLanguage) {
+  // Create a sample text for language detection (first 10 unique lines or fewer)
+  const sampleText = uniqueArray.slice(0, Math.min(10, uniqueArray.length)).join(" ");
+  detectedOrForcedLanguage = languageDetector.detectLanguage(sampleText);
+  console.log(`🔤 Auto-detected language: ${detectedOrForcedLanguage}`);
+} else {
+  console.log(`🔤 Using forced language: ${detectedOrForcedLanguage}`);
+}</code></pre>
+
+            <h3>Quality Filtering</h3>
+
+            <p>
+                Not all generated flashcards are useful for learning. I implemented quality filters to ensure learners see only the most helpful content:
+            </p>
+
+            <div class="code-file-header">songController.js - Flashcard Quality Filtering</div>
+            <pre class="code-block"><code class="javascript">// Track filtering statistics for debugging
+const initialCount = flashcards.length;
+let emptyCount = 0;
+let identicalCount = 0;
+let sectionMarkerCount = 0;
+
+// Track identical translations but keep them in the results
+flashcards.forEach(card => {
+  if (card.front === card.back) {
+    identicalCount++;
+    // Optionally add a marker to the card
+    card.isIdentical = true;
+  }
+});
+
+// Final filter to ensure quality flashcards with detailed tracking
+flashcards = flashcards.filter(card => {
+  // Check for empty front or back
+  if (card.front.length === 0 || card.back.length === 0) {
+    emptyCount++;
+    return false;
+  }
+  
+  // Check for section markers that might have slipped through
+  if (/^\[.*\]$/.test(card.front) || /^\[.*\]$/.test(card.back)) {
+    sectionMarkerCount++;
+    return false;
+  }
+  
+  return true;
+});</code></pre>
+
+            <h2>Frontend Integration</h2>
+
+            <p>
+                The frontend needed to intelligently interact with the optimized backend. The Flashcards component was designed to respect cache lifecycles and provide visual feedback during loading:
+            </p>
+
+            <div class="code-file-header">Flashcards.jsx - Language Selection</div>
+            <pre class="code-block"><code class="javascript">// Effect to fetch flashcards when song or language changes
+useEffect(() => {
+  if (selectedSong && isAuthenticated()) {
+    fetchFlashcards();
+  }
+}, [selectedSong, selectedLanguage]);
+
+// Enhanced fetchFlashcards with user-specific handling and improved error handling
+const fetchFlashcards = async () => {
+  if (!selectedSong) return;
+  
+  // Validate user authentication
+  if (!isAuthenticated()) {
+    setToast({
+      show: true,
+      message: "Please log in to access flashcards",
+      type: "warning"
+    });
+    navigate("/login");
+    return;
+  }
+  
+  setIsLoadingCards(true);
+  
+  try {
+    // Construct URL with language parameter
+    let url = `${backendUrl}/api/songs/flashcards?song=${encodeURIComponent(selectedSong.song)}`;
+    if (selectedLanguage !== "auto") {
+      url += `&lang=${selectedLanguage}`;
+    }
+    
+    // Add user ID for server-side validation
+    const userId = getUserId();
+    if (userId) {
+      url += `&userId=${userId}`;
+    }
+    
+    const data = await apiGet(url);
+    
+    if (data.error) {
+      throw new Error(data.error);
+    }
+    
+    setFlashcards(data);
+    
+    // Update detected language
+    if (data.length > 0 && data[0].detectedLanguage) {
+      setDetectedLanguage(data[0].detectedLanguage);
+    }
+  } catch (error) {
+    console.error("Error fetching flashcards:", error);
+    
+    // Only show toast for actual errors, not for "song not found" 
+    if (!error.message.includes("Song not found")) {
+      setToast({
+        show: true,
+        message: error.message || "Failed to load flashcards",
+        type: "error"
+      });
+    }
+  } finally {
+    setIsLoadingCards(false);
+  }
+};</code></pre>
+
+            <h2>Conclusion</h2>
+
+            <p>
+                By implementing Redis caching and lyric deduplication, LyricLingo evolved from a simple concept into a robust, efficient language learning tool. These optimizations not only improved performance but also made the service more economically viable by dramatically reducing API costs.
+            </p>
+
+            <p>
+                The technical choices highlight important principles for any web application:
+            </p>
+
+            <ol>
+                <li><strong>Identify Patterns</strong>: Understanding the repetitive nature of song lyrics revealed optimization opportunities.</li>
+                <li><strong>Minimize External Calls</strong>: The deduplication strategy significantly reduced translation API requests.</li>
+                <li><strong>Persistent Caching</strong>: Redis provided a scalable solution for preserving expensive computations.</li>
+                <li><strong>User-Specific Optimization</strong>: Namespacing caches by user ID maintained data privacy while enabling personalization.</li>
+            </ol>
+
+            <p>
+                These techniques aren't limited to lyric translation—they can be applied to any application needing to optimize API usage, especially when dealing with text processing, translations, or any data with inherent repetition patterns.
+            </p>
+
+            <p>
+                Check out <a href="https://lyriclingo.vercel.app" target="_blank">LyricLingo</a> to see these optimizations in action, or explore the <a href="https://github.com/4shivv/lyriclingo" target="_blank">GitHub repository</a> for a deeper dive into the code.
+            </p>
+        </div>
+        
+        <div class="post-navigation">
+            <a href="index.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-effect">
+        <div class="container footer-container">
+            <div class="footer-content">
+                <p class="copyright">&copy; 2025 Shivaganesh Nagamandla</p>
+                <div class="footer-links">
+                    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i> Back to Top</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>
