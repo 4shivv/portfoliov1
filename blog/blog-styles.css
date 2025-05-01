@@ -1,3 +1,14 @@
+/* Logo Link */
+.nav-logo a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-logo a:hover {
+    opacity: 0.8;
+}
+
 /* Blog Styles */
 
 /* Blog Header */
