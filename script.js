@@ -86,21 +86,28 @@ mobileMenuBtn.addEventListener('click', () => {
 // Scroll to section from navigation
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {
-        if (!link.hasAttribute('target')) {
+        const targetId = link.getAttribute('href');
+        
+        // Only prevent default for same-page anchor links
+        if (!link.hasAttribute('target') && targetId.startsWith('#')) {
             e.preventDefault();
-            const targetId = link.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    // Close mobile menu if open
-                    navLinks.classList.remove('active');
-                    mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
-                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-                }
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                // Close mobile menu if open
+                navLinks.classList.remove('active');
+                mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            }
+        } else if (!link.hasAttribute('target')) {
+            // For other links without target attribute, just close the mobile menu
+            navLinks.classList.remove('active');
+            if (mobileMenuBtn.querySelector('i')) {
+                mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
             }
         }
     });
