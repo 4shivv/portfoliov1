@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivaganesh Nagamandla | Portfolio</title>
+    <link rel="stylesheet" href="styles-modern.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-effect" id="navbar">
+        <div class="nav-logo"><a href="index.html">SN</a></div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="portfolio.html" class="nav-link active">Portfolio</a>
+            <a href="blog/index.html" class="nav-link">Blog</a>
+            <a href="assets/shivaganesh_nagamandla_resume.pdf" target="_blank" class="nav-link"><i class="fas fa-file-pdf"></i> Resume</a>
+        </div>
+        <div class="nav-controls">
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="glitch-effect" data-text="Shivaganesh Nagamandla">Shivaganesh Nagamandla</h1>
+                    <div class="typewriter">
+                        <p class="subtitle">Software Engineer | <span class="typing" id="typing-text"></span></p>
+                    </div>
+                    <div class="about-me reveal-text">
+                        <p>I'm a software engineer passionate about building efficient, scalable systems and innovative applications. Specializing in full-stack development with expertise in both front-end and back-end technologies, I create solutions that solve real-world problems. Currently focused on AI-powered applications and microservice architectures.</p>
+                    </div>
+                    <div class="contact-info">
+                        <a href="mailto:shiv.nagamandla@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> shiv.nagamandla@gmail.com</a>
+                        <a href="https://linkedin.com/in/shivaganesh-nagamandla" target="_blank" class="contact-link"><i class="fab fa-linkedin"></i> linkedin.com/in/shivaganesh-nagamandla</a>
+                        <a href="https://github.com/4shivv" target="_blank" class="contact-link"><i class="fab fa-github"></i> github.com/4shivv</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="code-window">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="window-title">about.js</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code>const developer = {
+  name: "Shivaganesh Nagamandla",
+  title: "Software Engineer",
+  languages: ["Python", "Java", "JavaScript"],
+  specialties: [
+    "Full-Stack Development",
+    "Microservices",
+    "AI Applications"
+  ],
+  currentFocus: "Building scalable systems",
+  contactMe: () => "Let's connect!"
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certifications</h3>
+                    <p>Microsoft Office, Microsoft Excel, Operating Systems, AI Associate</p>
+                </div>
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Programming Languages</h3>
+                    <p>Python, Java, JavaScript (ES6+), SQL, C/C++, HTML5, CSS3</p>
+                </div>
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Frameworks</h3>
+                    <p>React.js, Next.js, Vue.js, Node.js, Express.js, NumPy, Scikit-learn, Qiskit, Pandas</p>
+                </div>
+                <div class="skill-category card-hover">
+                    <div class="skill-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Developer Tools</h3>
+                    <p>Git/Github/GitLab, Postman, Jira, Cursor, Visual Studio, PyCharm, CLion, Eclipse</p>
+                </div>
+            </div>
+            <div class="skill-visual">
+                <div class="skill-bars">
+                    <div class="skill-bar">
+                        <span class="skill-name">Frontend</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">Backend</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">Database</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">DevOps</span>
+                        <div class="bar">
+                            <div class="progress" data-percent="75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section-padding alt-section">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content card-hover">
+                        <div class="date-badge">Aug 2024 - Dec 2024</div>
+                        <h3>Software Engineer Intern</h3>
+                        <p class="company"><i class="fas fa-building"></i> Hexaider Technologies, Maitland, FL</p>
+                        <ul class="achievements">
+                            <li>Developed Spring Boot booking APIs for the flight reservation microservice, contributing to a <span class="highlight">35%</span> latency reduction</li>
+                            <li>Built Kafka consumer for the seat inventory service to process real-time reservation updates, streaming over <span class="highlight">100K+</span> daily events across <span class="highlight">5+</span> microservices</li>
+                            <li>Optimized Dockerfiles, reducing image size by <span class="highlight">60%</span> and AWS EC2 deployment time to <span class="highlight">15</span> minutes</li>
+                            <li>Collaborated in cross-functional code reviews to enforce design standards and improve deployment reliability</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content card-hover">
+                        <div class="date-badge">May 2024 - Aug 2024</div>
+                        <h3>Data Engineering Intern</h3>
+                        <p class="company"><i class="fas fa-building"></i> Hexaider Technologies, Maitland, FL</p>
+                        <ul class="achievements">
+                            <li>Optimized Oracle SQL transformation scripts by <span class="highlight">27%</span>, automating data extraction pipelines from PeopleSoft HCM</li>
+                            <li>Developed unit tests for SQL transformations using parameterized mock datasets, increasing test coverage by <span class="highlight">20%</span></li>
+                            <li>Automated delivery of <span class="highlight">15+</span> HR data exports using Python, streamlining Workday HCM migration (Agile)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content card-hover">
+                        <div class="date-badge">Sep 2022 - Apr 2023</div>
+                        <h3>President</h3>
+                        <p class="company"><i class="fas fa-building"></i> Computer Science Club, Sanford, FL</p>
+                        <ul class="achievements">
+                            <li>Led development of the Crooms TechFest mobile app, enabling <span class="highlight">500+</span> attendees to access real-time event info and company profiles for career fair exhibitors</li>
+                            <li>Revamped the collaborative coding initiative, increasing active member participation by <span class="highlight">58%</span> over the previous year</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            
+            <div class="project-grid">
+                <div class="project-card card-hover">
+                    <div class="project-header">
+                        <h3>Retriv.ai</h3>
+                        <span class="project-status">In Progress</span>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">AI-powered study platform combating student procrastination through smart scheduling and retention techniques.</p>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-value">87%</span>
+                                <span class="stat-label">Relevance Score</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">94%</span>
+                                <span class="stat-label">Speech Accuracy</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">8</span>
+                                <span class="stat-label">Languages</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech">Vue.js</span>
+                            <span class="tech">Firebase</span>
+                            <span class="tech">Vuex</span>
+                            <span class="tech">DeepSeek AI</span>
+                        </div>
+                        <div class="project-features">
+                            <p><i class="fas fa-check-circle"></i> Custom prompt engineering pipeline</p>
+                            <p><i class="fas fa-check-circle"></i> WebSpeech API implementation</p>
+                            <p><i class="fas fa-check-circle"></i> Smart scheduling algorithms</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card card-hover">
+                    <div class="project-header">
+                        <h3>LyricLingo</h3>
+                        <a href="https://lyriclingo.vercel.app" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> View Project</a>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">Real-time lyric translation service integrating with Spotify, Genius, and DeepL APIs.</p>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-value">95%</span>
+                                <span class="stat-label">Translation Accuracy</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">40%</span>
+                                <span class="stat-label">API Cost Reduction</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">200ms</span>
+                                <span class="stat-label">Load Time</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech">React</span>
+                            <span class="tech">Node.js</span>
+                            <span class="tech">MongoDB</span>
+                            <span class="tech">Express</span>
+                            <span class="tech">Redis</span>
+                        </div>
+                        <div class="project-features">
+                            <p><i class="fas fa-check-circle"></i> RESTful API with JWT-Auth</p>
+                            <p><i class="fas fa-check-circle"></i> Language auto-detection</p>
+                            <p><i class="fas fa-check-circle"></i> NLP sentiment analysis (82% accuracy)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card card-hover">
+                    <div class="project-header">
+                        <h3>Slumber</h3>
+                        <a href="https://slumber-nine.vercel.app" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> View Project</a>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">Sleep optimization tool to help users identify optimal bedtime and wake-up times.</p>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-value">30%</span>
+                                <span class="stat-label">Rendering Reduction</span>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech">React</span>
+                            <span class="tech">Next.js</span>
+                            <span class="tech">TypeScript</span>
+                            <span class="tech">Tailwind CSS</span>
+                        </div>
+                        <div class="project-features">
+                            <p><i class="fas fa-check-circle"></i> Custom React hooks</p>
+                            <p><i class="fas fa-check-circle"></i> Persistent user preferences</p>
+                            <p><i class="fas fa-check-circle"></i> Procedurally generated animations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding alt-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info-section">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:shiv.nagamandla@gmail.com">shiv.nagamandla@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin-in"></i>
+                            <a href="https://linkedin.com/in/shivaganesh-nagamandla" target="_blank">linkedin.com/in/shivaganesh-nagamandla</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <a href="https://github.com/4shivv" target="_blank">github.com/4shivv</a>
+                        </div>
+                    </div>
+                    <div class="contact-message">
+                        <p>I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-effect">
+        <div class="container footer-container">
+            <div class="footer-content">
+                <p class="copyright">&copy; 2025 Shivaganesh Nagamandla</p>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="blog/index.html" class="footer-link"><i class="fas fa-pen-fancy"></i> Blog</a>
+                    <a href="assets/shivaganesh_nagamandla_resume.pdf" target="_blank" class="footer-link"><i class="fas fa-file-pdf"></i> Resume</a>
+                    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i> Back to Top</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

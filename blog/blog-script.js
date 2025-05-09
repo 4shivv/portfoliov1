@@ -120,19 +120,11 @@ function toggleNavbar() {
 // Set active nav link for blog
 function setActiveNavLink() {
     const navLinks = document.querySelectorAll('.nav-link');
-    const currentPath = window.location.pathname;
     
-    navLinks.forEach(link => {
-        const linkPath = link.getAttribute('href');
-        
-        // Check if current page matches link
-        if (currentPath.endsWith(linkPath)) {
-            link.classList.add('active');
-        } else if (currentPath.includes('/blog/') && linkPath === 'index.html') {
-            // For blog posts, highlight the blog nav item
-            link.classList.add('active');
-        }
-    });
+    // For blog pages, the 'Blog' link (second link) should be active
+    if (navLinks.length > 1) {
+        navLinks[1].classList.add('active');
+    }
 }
 
 // Initialize code highlighting

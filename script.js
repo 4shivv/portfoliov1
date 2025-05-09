@@ -181,26 +181,13 @@ function toggleNavbar() {
 
 // Set active nav link
 function setActiveNavLink() {
-    const sections = document.querySelectorAll('section');
+    // For the main page, 'Portfolio' link is always active
     const navLinks = document.querySelectorAll('.nav-link');
     
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (pageYOffset >= sectionTop - 150) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-            link.classList.add('active');
-        }
-    });
+    // Add active class to Portfolio link (which is the first link)
+    if (navLinks.length > 0) {
+        navLinks[0].classList.add('active');
+    }
 }
 
 // Typing effect
