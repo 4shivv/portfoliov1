@@ -94,9 +94,9 @@ document.querySelectorAll('.nav-link').forEach(link => {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - 80,
+                top: targetElement.offsetTop - 80,
                     behavior: 'smooth'
-                });
+            });
                 // Close mobile menu if open
                 navLinks.classList.remove('active');
                 mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
