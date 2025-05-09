@@ -1,0 +1,210 @@
+/* Mobile Optimizations for All Pages
+ * This file contains text size and responsive design optimizations
+ * for all pages in the portfolio website.
+ */
+
+/* Base Mobile Optimizations */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px; /* Slight reduction for base font size */
+  }
+  
+  /* Global heading adjustments */
+  h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h2 {
+    font-size: 1.8rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  h3 {
+    font-size: 1.4rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* Smaller Mobile Optimizations */
+@media (max-width: 480px) {
+  html {
+    font-size: 14px; /* Further reduction for smaller screens */
+  }
+  
+  /* Even smaller headings for tiny screens */
+  h1 {
+    font-size: 1.8rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  h3 {
+    font-size: 1.3rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Paragraph and general text adjustments */
+  p, li, div {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Button and link text size adjustments */
+  a.nav-button, 
+  a.project-link, 
+  a.post-link {
+    font-size: 0.95rem !important;
+  }
+  
+  a.nav-button i {
+    font-size: 1rem !important;
+  }
+  
+  /* Reduce spacing */
+  .landing-container {
+    padding: 1rem !important;
+  }
+  
+  .name-title {
+    margin-bottom: 2rem !important;
+  }
+  
+  .main-links {
+    gap: 0.75rem !important;
+  }
+  
+  /* Adjustments for project items */
+  .project-showcase {
+    gap: 3rem !important;
+  }
+  
+  .project-description {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .tech {
+    font-size: 0.8rem !important;
+    padding: 0.3rem 0.7rem !important;
+  }
+  
+  .project-link {
+    padding: 0.6rem 1.2rem !important;
+  }
+  
+  /* Blog specific mobile optimization */
+  .blog-posts {
+    gap: 1rem !important;
+  }
+  
+  .blog-card {
+    padding: 1.2rem !important;
+  }
+  
+  .post-title {
+    font-size: 1.3rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .post-excerpt p {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Blog post specific optimizations */
+  .blog-post-title {
+    font-size: 1.6rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.8rem !important;
+  }
+  
+  .blog-post-meta {
+    font-size: 0.8rem !important;
+  }
+  
+  .post-content {
+    line-height: 1.6 !important;
+  }
+  
+  .post-content h2 {
+    font-size: 1.4rem !important;
+    margin: 1.8rem 0 0.8rem !important;
+  }
+  
+  .post-content h3 {
+    font-size: 1.2rem !important;
+    margin: 1.3rem 0 0.8rem !important;
+  }
+  
+  .post-content p,
+  .post-content li {
+    font-size: 0.9rem !important;
+    margin-bottom: 1.2rem !important;
+  }
+  
+  /* Code block optimizations */
+  .code-file-header {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.8rem !important;
+  }
+  
+  pre {
+    padding: 0.8rem !important;
+  }
+  
+  code {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Tiny Mobile Screens - Additional Tweaks */
+@media (max-width: 360px) {
+  html {
+    font-size: 13px; /* Even smaller base font */
+  }
+  
+  /* Make nav buttons and project links stack properly */
+  .nav-button {
+    min-width: 160px !important;
+    padding: 0.75rem 1.5rem !important;
+  }
+  
+  /* Further spacing reductions */
+  .landing-container {
+    padding: 0.8rem !important;
+  }
+  
+  /* Project showcase items */
+  .project-image {
+    height: 180px !important;
+  }
+  
+  /* Improve readability at tiny sizes */
+  .post-title {
+    font-size: 1.2rem !important;
+  }
+  
+  .blog-post-title {
+    font-size: 1.4rem !important;
+  }
+  
+  /* Tighten up spacing further */
+  .project-showcase {
+    gap: 2rem !important;
+  }
+  
+  /* Very tiny screens need even more compact tech tags */
+  .tech-stack {
+    gap: 0.4rem !important;
+  }
+  
+  .tech {
+    padding: 0.25rem 0.5rem !important;
+  }
+}
