@@ -281,27 +281,31 @@ body {
 .project-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 1rem;
   margin-top: 1.5rem;
 }
 
 .project-link {
   display: inline-flex;
   align-items: center;
-  padding: 0.6rem 1.2rem;
-  background: var(--accent-gradient);
-  color: white;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--accent-color);
   text-decoration: none;
-  border-radius: 30px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.15);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  border: 2px solid var(--accent-color);
+  box-shadow: none;
 }
 
 .project-link:hover {
+  background: var(--accent-color);
+  color: white;
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 112, 243, 0.25);
+  box-shadow: 0 6px 16px rgba(0, 112, 243, 0.15);
 }
 
 .project-link i {
@@ -446,6 +450,17 @@ body {
 [data-theme="dark"] .project-image::after {
   background: linear-gradient(135deg, rgba(0, 128, 255, 0.8), rgba(0, 200, 255, 0.7)); /* Vibrant blue gradient for dark mode */
   mix-blend-mode: multiply;
+}
+
+[data-theme="dark"] .project-link {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+[data-theme="dark"] .project-link:hover {
+  background: var(--accent-color);
+  color: #1a1a1a;
+  box-shadow: 0 6px 16px rgba(0, 162, 255, 0.2);
 }
 
 [data-theme="dark"] .cursor-follower {
