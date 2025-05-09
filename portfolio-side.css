@@ -144,6 +144,23 @@ body {
   height: 380px;
 }
 
+.project-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 112, 243, 0.8), rgba(0, 162, 255, 0.7)); /* Blue gradient overlay */
+  mix-blend-mode: multiply; /* For more intensity */
+  transition: opacity var(--transition-regular);
+  z-index: 1;
+}
+
+.project-image:hover::after {
+  opacity: 0;
+}
+
 .project-image:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
@@ -154,6 +171,8 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-slow);
+  position: relative;
+  z-index: 0;
 }
 
 .project-image:hover img {
@@ -422,6 +441,11 @@ body {
 /* Dark Mode Adjustments */
 [data-theme="dark"] .nav-button {
   background: rgba(30, 30, 35, 0.6);
+}
+
+[data-theme="dark"] .project-image::after {
+  background: linear-gradient(135deg, rgba(0, 128, 255, 0.8), rgba(0, 200, 255, 0.7)); /* Vibrant blue gradient for dark mode */
+  mix-blend-mode: multiply;
 }
 
 [data-theme="dark"] .cursor-follower {
