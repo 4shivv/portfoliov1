@@ -3,7 +3,7 @@
 /* Blog Post Container */
 .blog-post-container {
   align-items: flex-start;
-  padding: 2rem;
+  padding: 5rem 2rem 2rem;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -120,6 +120,8 @@ pre {
   overflow-x: auto;
   background-color: #1e1e3f;
   border-radius: 0 0 8px 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 [data-theme="dark"] pre {
@@ -146,7 +148,7 @@ code {
 /* Media Queries */
 @media (max-width: 768px) {
   .blog-post-container {
-    padding: 1.5rem;
+    padding: 4rem 1.5rem 1.5rem;
   }
   
   .blog-post-title {
@@ -158,11 +160,29 @@ code {
     align-items: center;
     gap: 0.5rem;
   }
+  
+  .post-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .post-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
   .blog-post-container {
-    padding: 1rem;
+    padding: 3rem 1rem 1rem;
   }
   
   .blog-post-title {
@@ -175,5 +195,25 @@ code {
   
   .code-file-header {
     font-size: 0.8rem;
+  }
+  
+  .post-content p,
+  .post-content li {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  
+  .post-content h2 {
+    font-size: 1.4rem;
+  }
+  
+  .post-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .blog-post-container .main-links .nav-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    min-width: 160px;
   }
 }

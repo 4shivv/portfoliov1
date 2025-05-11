@@ -115,9 +115,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
+  padding: 5rem 2rem 2rem;
   max-width: 100%;
   margin: 0 auto;
   position: relative;
@@ -405,16 +403,22 @@ body {
   }
   
   .landing-container {
-    padding: 1.5rem;
+    padding: 4rem 1.5rem 1.5rem;
   }
   
   .blog-posts {
     grid-template-columns: 1fr;
     gap: 20px;
+    width: 100%;
   }
   
   .post-title {
     font-size: 1.3rem;
+  }
+  
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
   }
 }
 
@@ -435,5 +439,19 @@ body {
   
   .post-category {
     align-self: flex-start;
+  }
+  
+  .blog-card {
+    padding: 1.2rem;
+  }
+  
+  .nav-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    min-width: 160px;
+  }
+  
+  .social-links {
+    gap: 1rem;
   }
 }
