@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning the Why Behind the What | Shivaganesh Nagamandla</title>
-    <meta name="description" content="Exploring the importance of understanding why concepts exist in programming rather than just how they work, using JavaScript's hoisting as an example.">
+    <meta name="description" content="Exploring the importance of understanding why programming concepts exist rather than just learning what they are and how they work.">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="blog-landing-nav.css">
     <link rel="stylesheet" href="blog-post.css">
@@ -28,7 +28,7 @@
             <h1 class="blog-post-title">Learning the Why Behind the What</h1>
             <div class="blog-post-meta">
                 <span><i class="fas fa-calendar"></i> May 19, 2025</span>
-                <span><i class="fas fa-tag"></i> Programming Mindset</span>
+                <span><i class="fas fa-tag"></i> Development Philosophy</span>
                 <span><i class="fas fa-clock"></i> 3 min read</span>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 In the software development world, there are various tools that solve the same problems, such as different frameworks, languages, or even entire stacks that all build similar apps. For instance, Java and C++ share many core programming principles. So when developers make architectural choices—say, choosing React over Vue or PostgreSQL over MongoDB—we're often forced to ask the deeper question: "Why this approach over another?" It hit me that we shouldn't wait until project decision-making to ask "why." We should be asking it as we learn alongside the "what."
             </p>
 
-            <h2>The Power of Understanding "Why"</h2>
+            <h2>The Power of Understanding Why</h2>
             
             <p>
                 Understanding why something exists gives you a level of clarity that goes beyond memorization:
@@ -54,31 +54,44 @@
                 <li>It helps build intuition, making it easier to pick the right tool later—even if it's one you've never used.</li>
                 <li>It reinforces transferable knowledge instead of siloed facts.</li>
             </ul>
-
-            <h2>An Example: JavaScript Hoisting</h2>
+            
+            <h2>A Practical Example: JavaScript Hoisting</h2>
             
             <p>
-                Recently, I was trying to brush up on Javascript basics and approached the topic: What is hoisting? Hoisting in JavaScript is JavaScript's default behavior of moving declarations to the top. But then I asked myself a subtle but important question because I couldn't see it in the moment: why did JavaScript's creators build it this way?
+                Recently, I was trying to brush up on Javascript basics and approached the topic: What is hoisting? Hoisting in JavaScript is JavaScript's default behavior of moving declarations to the top. But then I asked myself a subtle but important question because I couldn't see it in the moment: why does JavaScript even have hoisting in the first place?
             </p>
             
             <p>
-                By asking this simple question, I learned that hoisting wasn't a quirky afterthought—it was intentional to allow functions and variables to be available before the code runs, giving the engine a chance to set up scopes in a single parsing pass. In practice, this means:
+                By asking this simple question, I learned that Hoisting exists in JavaScript because of how the language was originally designed to be interpreted and executed.
+            </p>
+            
+            <p>
+                JavaScript engines read and parse code in two phases:
+            </p>
+            
+            <ol>
+                <li>Parsing Phase: The engine scans the code for declarations (like var and function) and adds them to memory.</li>
+                <li>Execution Phase: The engine runs the code line by line.</li>
+            </ol>
+            
+            <p>
+                To make code more forgiving and reduce errors from calling functions or referencing variables before they're defined, JavaScript "hoists" declarations to the top of their scope during the parsing phase. This means:
             </p>
             
             <ul>
-                <li>Early binding of functions, so you can call a function before its declaration, making the code flow more natural.</li>
-                <li>Consistent scope setup, ensuring that variables declared anywhere in a function are recognized from the start, preventing unexpected reference errors.</li>
+                <li>Functions can be called before they appear in the code.</li>
+                <li>Variables declared with var exist from the top of their scope, though they're initially set to undefined.</li>
             </ul>
             
             <p>
-                Seeing hoisting as a deliberate trade-off instead of a magical rule transformed my perspective. I stopped thinking, "Ugh, hoisting is confusing," and started thinking, "Ah, this exists to give JS its flexible, forgiving nature during execution."
+                This design choice was made to allow flexible, top-down coding and to enable things like mutual recursion or separating logic and declarations without needing to rearrange code order manually.
             </p>
+
+            <h2>From Memorization to Understanding</h2>
             
             <p>
                 What felt like a simple concept suddenly had a purpose. And by understanding that purpose, I wasn't just memorizing behavior—I was internalizing how the language thinks.
             </p>
-
-            <h2>Conclusion</h2>
             
             <p>
                 That one moment helped me realize that even the smallest concepts can unlock deeper understanding when you lead with why. You not only avoid hype-driven choices but also make more strategic decisions in your own project architecture.
