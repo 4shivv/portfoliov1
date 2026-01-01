@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How I Brute-Forced My Way to Understanding System Design | Shivaganesh Nagamandla</title>
+    <meta name="description" content="Four hackathons. Didn't win any. One production system running at 60Hz with sub-5ms latency. How four weekend failures taught me to build production-grade systems.">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="blog-landing-nav.css">
+    <link rel="stylesheet" href="blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/night-owl.min.css">
+    <style>
+        .post-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .post-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        .post-content table th,
+        .post-content table td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border-color, #ddd);
+        }
+        .post-content table th {
+            background-color: var(--table-header-bg, #f5f5f5);
+            font-weight: 600;
+        }
+        .post-content table tr:nth-child(even) {
+            background-color: var(--table-row-bg, #f9f9f9);
+        }
+        .post-content pre {
+            background-color: #011627;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .post-content code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        .post-content p code {
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        .post-content ul, .post-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .post-content li {
+            margin-bottom: 0.5rem;
+        }
+        .post-content strong {
+            font-weight: 600;
+        }
+        .post-content em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <!-- Main Content -->
+    <div class="landing-container blog-post-container">
+        <a href="index.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+
+        <div class="blog-post-header">
+            <h1 class="blog-post-title">How I Brute-Forced My Way to Understanding System Design</h1>
+            <div class="blog-post-meta">
+                <span><i class="fas fa-calendar"></i> January 1, 2026</span>
+                <span><i class="fas fa-tag"></i> System Design, Software Engineering</span>
+                <span><i class="fas fa-clock"></i> 10 min read</span>
+            </div>
+        </div>
+
+        <div class="post-content">
+            <p>I competed in four hackathons this semester. I didn't place in any of them.</p>
+
+            <p>But through those hackathons, I learned <strong>a repeatable process for designing systems that actually work.</strong></p>
+
+            <p>Here's how four weekend failures taught me to build production-grade systems.</p>
+
+            <h2>Hackathon 1: GemiKnights 2025 (UCF, June)</h2>
+
+            <p>Four people, 12 hours, one goal: build DocuLens, an AI-powered tax document scanner. Upload a tax form (W-2, 1099, 1040), and the system scans it, detects red flags like missing SSNs or calculation errors, and explains what's wrong in plain English.</p>
+
+            <p>The backend (Python/FastAPI) would receive the uploaded PDF, extract text with Tesseract.js OCR, send it to Gemini AI for analysis, and return structured JSON with detected issues, completeness score, and risk level.</p>
+
+            <p>The frontend (React) would let users upload forms, poll the backend every 3 seconds for results, and display issues with visual highlights.</p>
+
+            <p>We spent 4 hours figuring out what to build and making a step-by-step user workflow. Then we split: two people on backend, two on frontend. Coded for 6 hours in parallel.</p>
+
+            <p>With 2 hours left, we tried to connect them. Nothing worked.</p>
+
+            <p>The frontend kept throwing errors: <code>Cannot read property 'detectedIssues' of undefined</code></p>
+
+            <p>We checked the network tab. The backend was returning data. But the frontend couldn't read it. The backend nested everything under a <code>results</code> object. The frontend expected it flat at the root level. Every line of frontend code that tried to access <code>analysisResults.detectedIssues</code> failed because it was actually at <code>analysisResults.results.detectedIssues</code>. We had also forgotten to include <code>fileName</code> in the backend response at all.</p>
+
+            <p><strong>We never got a working demo.</strong></p>
+
+            <p>We had planned what the user would see: the upload screen, the processing state, the results. But we never talked about how the backend and frontend would actually communicate. What JSON structure? Which endpoints? Who calculates what?</p>
+
+            <p>We assumed "the frontend needs analysis results" was specific enough. It wasn't.</p>
+
+            <p>With 30 minutes left, we were still trying to restructure the backend response format while the frontend team patched their code to handle the nested structure. We ran out of time.</p>
+
+            <p>Looking back, the problem was obvious: we planned the product, not the system. We knew what users would click, but not what data would flow between components. We didn't write down what the JSON should look like. Which side handles what logic? We never discussed it. Error handling didn't come up. We just split up and started coding.</p>
+
+            <p>Planning the user experience isn't enough. You also need to plan how your components communicate: what data flows between them, in what format, and who handles what.</p>
+
+            <h2>Hackathon 2: ShellHacks 2025 (FIU, September)</h2>
+
+            <p>Three people, 36 hours, one goal: build a credit card recommendation engine using a weighted decision matrix. Score each card on five criteria: Net Annual Value (40%), Approval Odds (20%), APR (15%), Perks (15%), and Ease of Use (10%). Weights adjust dynamically. If you carry a balance frequently, APR weight jumps to 27%.</p>
+
+            <p>We had 11 credit cards in our database and a plan: design the scoring algorithm, build the backend API, create the database schema, build the quiz frontend, then connect everything. Better structured than Hackathon 1.</p>
+
+            <p>But we hit a wall: what data do we actually need?</p>
+
+            <p>We knew we needed to ask about spending to calculate Net Annual Value. But how granular? All 10 categories? Just one total number? Top 3 only? We debated for 2 hours. "If we ask about all 10, users will abandon the quiz." "But if we only ask for top 3, our calculation will be inaccurate." We finally chose top 3 categories with an "Everything Else" option. Two hours gone.</p>
+
+            <p>Then perks. Each card has benefits like "$500 purchase protection" or "$100 airline fee credit." Do we count these at face value? Most people never use purchase protection. We added a utilization rate field. A $500 perk with 15% utilization = $75 actual value. But what's the utilization rate for lounge access? Global Entry credit? Cell phone protection? Another hour debating percentages.</p>
+
+            <p>Then quiz length. We started with 5 questions, then realized we needed to ask about State Farm eligibility, student status, balance carrying habits, travel frequency, international travel, loyalty programs. Our quiz ballooned to 11 questions. Is that too many? Will people quit halfway?</p>
+
+            <p>Every decision cascaded into more decisions. Our database schema changed 6 times. We kept adding "just one more field": base approval rate, cents per point for travel cards, transfer partners boolean, co-branded affinity matching, credit tier flags.</p>
+
+            <p>We finished the core functionality 1 hour past the Devpost deadline.</p>
+
+            <p>We had analysis paralysis. Every "what if?" spawned three more. What if someone travels internationally? Add a field. What if they have hotel status? Add another field. What if they want balance transfers? Add two more fields.</p>
+
+            <p>We kept asking "what's the most accurate way?" instead of "what's good enough to finish on time?" Data decisions are infinite if you let them be. Without constraints, you debate everything. We needed to set limits upfront: "We're asking MAX 10 questions. What are the 10 most important?" Ship with 80% accuracy, then iterate based on real usage.</p>
+
+            <p>Constraints aren't limitations. They force you to decide what actually matters.</p>
+
+            <h2>Hackathon 3: KnightHacks 2025 (UCF, October)</h2>
+
+            <p>Four people, 36 hours, one goal: autonomous robot navigation with D* Lite pathfinding. We got a working demo, but only after wasting 18 hours implementing a camera system, scrapping it, redoing it, and scrapping it again.</p>
+
+            <p>We ordered robot parts and started building. Midway through, we realized the components wouldn't work with the way we wanted to implement our project. We had to order a different robot kit and wait for delivery. The new kit came with an ESP32-CAM included.</p>
+
+            <p>"Perfect, we'll use this for the camera."</p>
+
+            <p>We spent hours trying to get ESP32-CAM WiFi working. It would only connect to specific networks. When it did connect, the video was choppy. Frames dropping constantly. We scrapped the implementation. Tried a different approach. Scrapped that too.</p>
+
+            <p>18 hours in, we finally realized: why not just use the iPhone LiDAR app one of our teammates had already built as a test project?</p>
+
+            <p>Wait. Why are we using ESP32-CAM?</p>
+
+            <p>Because it came with the kit. That's literally the only reason. No evaluation. No requirements check. Just "we have it, so we'll use it."</p>
+
+            <p>We needed video and depth data for object detection. The ESP32-CAM had video. So we used it. But we never asked what our actual requirements were. How fast does it need to be? How reliable? What happens when it fails? Are there other options?</p>
+
+            <p>The ESP32-CAM failed every check: only connected to specific networks, choppy video when it did work, frames dropping constantly, difficult to debug. The iPhone with ARKit had everything: LiDAR built in, stable video stream, already working, easy to debug. And one of us already had it built.</p>
+
+            <p>We switched. Rewrote the integration in 3 hours. It worked perfectly.</p>
+
+            <p>We wasted 18 hours implementing and reimplementing because we started with what we had instead of what we needed. We used ESP32-CAM because it came in the box. Spent hours debugging network issues instead of asking if there was a better way. Only realized the iPhone solution when we were almost out of time, even though a teammate already had it built.</p>
+
+            <p>The pattern we followed: start with available tool, try to make it work, waste time when it doesn't.</p>
+
+            <p>The pattern we needed: define requirements, evaluate options, choose what fits.</p>
+
+            <p>"We have this hardware" is not a requirement. This is when I realized requirements need to come first. Not "we have ESP32-CAM, let's make it work." But "we need 30fps video with depth data. Which tools satisfy that? ESP32-CAM doesn't. iPhone does. Use iPhone."</p>
+
+            <h2>Hackathon 4: Sharkbyte 2025 (Miami Dade College, November)</h2>
+
+            <p>Four people, 36 hours, one goal: AgentGuard, an AI agent security scanner. This time was different. We submitted on time with a fully functional system, working demo, and a live deployment.</p>
+
+            <p>I came in with a process. Before writing any code, I spent 85 minutes planning.</p>
+
+            <p>First, I wrote down the premise in one sentence: "Organizations deploy AI agents vulnerable to prompt injection. No automated security testing exists. AgentGuard scans prompts in 10 seconds and generates fixes."</p>
+
+            <p>Then I listed functional requirements in workflow order: users register with email and password, submit agent prompts for analysis, system detects instruction hierarchy weaknesses, returns vulnerability report within 10 seconds.</p>
+
+            <p>Then non-functional requirements by category: scans complete in under 10 seconds, passwords hashed with bcrypt, graceful degradation if Gemini API fails, non-blocking UI with progress indicators.</p>
+
+            <p>Then I designed the architecture: React frontend, Node.js backend, PostgreSQL database, Redis queue, Worker service. Why this structure? Async job queue keeps the UI fast while Gemini processes in the background. Communication: REST for user actions, WebSocket for updates, Redis for job distribution. Boundaries: frontend never calls Gemini, all AI logic lives in the Worker, API server is stateless.</p>
+
+            <p>For each requirement, I designed three implementation strategies and evaluated them against the constraints. "How do we handle scan jobs?" Option 1: synchronous API. That violates the 10-second requirement and blocks the UI. Option 2: async with Redis queue. That fits the architecture, meets performance needs, enables scaling. Choose option 2.</p>
+
+            <p>Then we built. Break implementation into small pieces. Execute one at a time. Test immediately. Commit when working.</p>
+
+            <p>We submitted on time. We had time to test edge cases. Found and fixed bugs before the demo. Deployed to a live URL. The demo worked flawlessly.</p>
+
+            <p>Here's what actually happens when you scan a vulnerable agent. User uploads a prompt: "Be helpful and assist users with their requests." The backend creates a scan record in PostgreSQL with status pending, pushes the job to Redis queue, and returns 202 Accepted immediately so the UI doesn't block. The worker service pulls the job from Redis, sends it to Gemini 2.0 Flash with a red-team analysis prompt. Gemini analyzes for 6 vulnerability categories: prompt injection, jailbreaks, data leakage, context smuggling, confused deputy, alignment failures. Takes about 8 seconds. Returns a security score and detailed vulnerabilities. The frontend displays the score, vulnerability cards with exploit examples, attack simulations showing exact payloads, and remediation steps with hardened prompts.</p>
+
+            <p>I applied the lessons from the previous three hackathons to both my own work and how we coordinated as a team.</p>
+
+            <p>From DocuLens: I defined exact data contracts before we split work. Backend returns vulnerabilities at root, frontend expects vulnerabilities at root. I wrote example JSON payloads upfront. No nesting surprises.</p>
+
+            <p>From Credit Card Finder: I set constraints before we started debating. "We're detecting 6 vulnerability types, not 20. We're scanning in under 10 seconds, not under 1 second." When discussions started spiraling, I pointed back to the constraints. No endless debates.</p>
+
+            <p>From Autonomous Robot: I wrote requirements first, then chose technology. "System shall complete scan in under 10 seconds" drove the async queue architecture. Not "let's use Redis because it's cool." I evaluated options against the requirements before proposing them to the team.</p>
+
+            <p>We didn't win. But we shipped a complete, working product.</p>
+
+            <h2>Applying This to Telemetry Visualization Systems</h2>
+
+            <p>Hackathons are practice. But does this process work on a real production system?</p>
+
+            <p>I had the chance to find out. I had been working with my team on a telemetry visualization system for my rocket club's engine testing months earlier. It worked, barely. The code was a mess: everything crammed into 3 files, database credentials hardcoded and committed to version control, a 60-line function that mixed data validation, transformations, state management, chart configuration, and React rendering. The system had race conditions that caused duplicate data, memory leaks that crashed the browser after long tests, and performance issues that made 60 FPS impossible.</p>
+
+            <p>I decided to rebuild it using the process from the hackathons.</p>
+
+            <p>The system needed to monitor 14+ sensors (thermocouples, load cells, pressure transducers) and 12 discrete switch states at 60Hz with sub-5ms latency during live rocket engine tests. This isn't a weekend project. Test engineers depend on this during live tests. If telemetry lags, you miss critical moments. If data is dropped or displayed inaccurately, the entire test run is invalidated.</p>
+
+            <p>I worked with 10+ people across mechanical and integrated hardware/software teams. Mechanical needed real-time sensor readings. Hardware/software needed switch state visibility for safety verification and clean data interfaces to build on. My role: lead the telemetry visualization software and coordinate requirements across teams.</p>
+
+            <p>I coordinated with each team to write functional requirements: backend queries QuestDB at 60Hz, backend transmits switch state updates immediately upon change, frontend displays real-time line charts for sensors, frontend updates all charts at 60Hz refresh rate.</p>
+
+            <p>Then non-functional requirements: backend completes each QuestDB query within 10ms to maintain 60Hz, frontend renders chart updates within 16.67ms for 60 FPS, backend handles named pipe read failures without crashing, backend supports up to 5 concurrent client connections.</p>
+
+            <p>Without that 10ms query requirement, I wouldn't have known that some database clients are too slow for 60Hz polling. Without the 16.67ms render requirement, I wouldn't have chosen uPlot over Recharts.</p>
+
+            <p>Then I designed the architecture: React frontend with uPlot charts, Node.js backend with QuestDB polling and named pipe reader, WebSocket server for real-time updates. Why this structure? Async communication keeps the UI fast. Communication patterns: backend polls QuestDB at 60Hz, reads switch states from named pipe non-blocking, broadcasts merged data via WebSocket. Boundaries: frontend never queries database directly, backend owns all data acquisition, no UI logic in backend.</p>
+
+            <p>Clear boundaries meant when the hardware/software team changed their switch message format, I knew exactly where to update: backend parser only, not frontend. When mechanical requested 2 additional sensors, the architecture didn't need to change. Just query two more columns.</p>
+
+            <p>For each requirement, I evaluated implementation options against the constraints.</p>
+
+            <p>Query database at 60Hz? I was about to use <code>pg</code> because I'd used it before and knew the API. Then I checked the requirement: queries must complete in under 10ms to maintain 60Hz. I benchmarked: pg averaged 12-15ms per query, postgres.js averaged 3-5ms. pg failed the requirement, postgres.js passed. If I hadn't defined that constraint upfront, I would have built on pg, discovered during testing that the system couldn't hit 60Hz, then faced rewriting the entire data layer.</p>
+
+            <p>Display sensor charts? I almost used Recharts because it's popular and familiar. Then I checked the requirement: render updates within 16.67ms for 60 FPS. Recharts can't maintain 60 FPS with real-time updates. uPlot can. It's optimized specifically for high-frequency time-series with WebGL acceleration. Choose uPlot.</p>
+
+            <p>Then I built, requirement by requirement. Created pollingEngine.ts with a self-correcting 60Hz loop and deduplication logic. Created telemetryProvider.ts with isolated database queries. Created socketServer.ts with WebSocket broadcast. Tested each piece immediately. Verified 60Hz timing. Measured latency: 3ms average. Created TelemetryChart.tsx, SensorGrid.tsx, config/maps.ts for declarative sensor metadata. Tested with recorded data from previous tests. Verified 60 FPS rendering.</p>
+
+            <p>The old code had everything in 3 files. One function, <code>processTelemetryData()</code>, was 60 lines long and violated 6 separate concerns. Database credentials hardcoded in server.js. Global <code>lastTimestamp</code> variable that reset for all clients whenever any new client connected, causing duplicate data. <code>completeGraphData</code> array that grew unbounded: a 10-hour test at 60Hz stored 2.16 million data points in browser memory, eventually crashing the tab. Chart library that couldn't maintain 60 FPS.</p>
+
+            <p>The refactored code: 15+ files with clear separation. telemetryProvider.ts for database queries only. pollingEngine.ts for the 60Hz timer. socketServer.ts for WebSocket broadcast. switchState.ts for named pipe reading. Credentials in environment variables, not code. TypeScript interfaces enforced across all state management. No race conditions. No memory leaks. Charts maintain 60 FPS.</p>
+
+            <p>Before I started, I knew what "done" looked like, where each piece of logic belonged, and which implementations would satisfy the constraints. Then I built and tested each requirement in isolation before integrating.</p>
+
+            <p>Four failed hackathons taught me a process. I used it to rebuild our production software. The system works: 14 sensor channels streaming at 60Hz, telemetry processing with sub-5ms latency, charts rendering at 60 FPS without dropping frames, switch states updating instantly. No crashes during extended test runs. The system deploys for live engine tests in 2 weeks.</p>
+
+            <p>I didn't finish because I got smarter. I finished because I had a process. Motivation fades, inspiration is unreliable, but a checklist you follow regardless of how you feel gets you to the finish line.</p>
+
+            <p>The process I learned from the hackathons worked in production. Requirements prevented me from choosing the wrong database client. Architecture prevented me from putting queries in the frontend. Constraints prevented me from using a chart library that couldn't hit 60 FPS.</p>
+
+
+            <h2>How I Design Software Now</h2>
+
+            <p>After four hackathons and one production system, here's my process.</p>
+
+            <p><strong>Start with the premise.</strong> One sentence: what problem, for who, what outcome. "Test engineers need real-time visualization of rocket sensor data at 60Hz to monitor system health during live engine tests." Five minutes.</p>
+
+            <p><strong>Write functional requirements.</strong> Order them by workflow. Use the pattern: actor shall action when condition. "Backend shall query database at 60Hz intervals." "Frontend shall display sensor charts when data arrives." "System shall transmit switch updates within 5ms." These define what must happen.</p>
+
+            <p><strong>Write non-functional requirements.</strong> Organize by category: performance, security, usability, reliability, scalability. "Query completes in under 10ms." "Handle connection failures gracefully." "Display connection status to user." "Support 5 concurrent clients." These define how it must feel. Requirements are your forcing function. "Should we add this feature?" Does it map to a requirement? No? Don't build it.</p>
+
+            <p><strong>Design the architecture.</strong> This defines what requirement goes where and why.</p>
+
+            <p>Start with the high-level structure. What are the major components? Frontend, backend, database, external services. What are the boundaries? Frontend renders only, no business logic. Backend owns all data acquisition, no UI concerns. Database is query-only, no writes. What are the integration points? How do components physically connect?</p>
+
+            <p>Then define system behavior. How does data flow? User input to processing to storage. What are the communication patterns? REST for user actions, WebSockets for real-time updates, Redis for job distribution.</p>
+
+            <p>Then choose your implementation strategy. What technology stack satisfies your non-functional requirements? React for 60 FPS rendering, postgres.js for sub-10ms queries, uPlot for high-frequency charts. The tools must meet the constraints.</p>
+
+            <p><strong>Evaluate before building.</strong> For each requirement, design three implementation strategies. Which satisfies the constraints? Which fits the architecture? Broadcast data to clients with sub-5ms latency? Backend owns transmission. Option 1: HTTP polling fails, too slow. Option 2: WebSocket push passes, fits boundary, meets latency. Choose WebSocket.</p>
+
+            <p><strong>Build iteratively.</strong> One requirement at a time. Implement in isolation. Test edge cases immediately. Verify against constraints. Integrate. Commit when working. You catch issues early when they're cheap to fix.</p>
+
+            <p>You don't need a hackathon to test this. Pick an idea you've been putting off. Write the premise. List 5-10 functional requirements ordered by workflow. List 3-5 non-functional requirements by category. Sketch the architecture: components, boundaries, data flow, communication patterns, technology choices. Pick one requirement. Design three strategies. Choose what fits. Build, test edge cases, commit. Repeat.</p>
+
+            <p>Vague planning fails. Requirements without constraints drift. Implementation without architecture breaks. But when you combine all three—requirements, architecture, evaluation—you finish.</p>
+
+            <p><strong>And finishing is what matters.</strong></p>
+        </div>
+
+        <div class="main-links">
+            <a href="index.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i>Back to Blog
+            </a>
+            <a href="../index.html" class="nav-button">
+                <i class="fas fa-home"></i>Home
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 Shivaganesh Nagamandla
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        // Theme initialization
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            if (newTheme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Custom cursor
+        document.addEventListener('mousemove', (e) => {
+            if (cursorFollower) {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>
