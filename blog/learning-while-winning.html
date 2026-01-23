@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning While Winning | Shivaganesh Nagamandla</title>
+    <meta name="description" content="How my team placed 2nd at NexHacks 2026, building Pyra - a fiduciary AI agent for crypto transactions. Lessons on using MCP servers to accelerate development and maintaining a learning mindset regardless of outcomes.">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="blog-landing-nav.css">
+    <link rel="stylesheet" href="blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/night-owl.min.css">
+    <style>
+        .post-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .post-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .post-content ul, .post-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .post-content li {
+            margin-bottom: 0.5rem;
+        }
+        .post-content strong {
+            font-weight: 600;
+        }
+        .post-content em {
+            font-style: italic;
+        }
+        .post-content p code {
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <!-- Main Content -->
+    <div class="landing-container blog-post-container">
+        <a href="index.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+
+        <div class="blog-post-header">
+            <h1 class="blog-post-title">Learning While Winning</h1>
+            <div class="blog-post-meta">
+                <span><i class="fas fa-calendar"></i> January 23, 2026</span>
+                <span><i class="fas fa-tag"></i> Hackathons, AI Development</span>
+                <span><i class="fas fa-clock"></i> 12 min read</span>
+            </div>
+        </div>
+
+        <div class="post-content">
+            <p>
+                Last weekend, my team placed 2nd in the DevTools Track at Carnegie Mellon University's NexHacks 2026, the largest hackathon on the East Coast with over 1500 competitors. We built Pyra, a fiduciary AI agent that provides runtime security for autonomous crypto transactions.
+            </p>
+
+            <p>
+                We treated this hackathon with the same engineering rigor I apply to telemetry systems at Knights Experimental Rocketry. We spent the first few hours purely on system architecture: defining functional requirements, mapping data flows, and reading documentation before writing a single line of code.
+            </p>
+
+            <p>
+                That discipline paid off in stability. Our demo worked flawlessly. But it came at a cost: time.
+            </p>
+
+            <p>
+                We spent hours reading Agent Developer Kit documentation just to figure out the boundaries of what was possible. In a 24 hour sprint, that is a luxury you cannot afford.
+            </p>
+
+            <p>
+                Reflecting on the win, I realized our workflow was fundamentally backwards for a hackathon environment. We won, but we almost didn't finish. Here is the bottleneck we faced, and the workflow we will use next time to cut setup time dramatically.
+            </p>
+
+            <h2>The Traditional Workflow</h2>
+
+            <p>
+                In traditional software engineering, the flow is linear. First you define the premise: what are we building? Then you write the requirements: what must it do? Then you choose the tools and architecture: what tech stack fits these requirements?
+            </p>
+
+            <p>
+                This works when you know the tools. But in a hackathon, you are often using new APIs for the first time. We were working with LiveKit and Kairo, neither of which we had used before.
+            </p>
+
+            <p>
+                We lost hours trying to write requirements for tools we didn't fully understand yet. We were guessing at the architecture, reading docs to verify, adjusting the architecture, and reading more docs. It was a slow feedback loop. Write a functional requirement. Read the docs. Realize it's not possible the way we wrote it. Rewrite the requirement. Read more docs. Repeat.
+            </p>
+
+            <p>
+                The problem is that we were letting requirements dictate the tools before we understood what the tools could do.
+            </p>
+
+            <h2>The Inverted Workflow: Tools First, Requirements Second</h2>
+
+            <p>
+                The solution is to invert the process. Instead of letting requirements dictate the tools, let the tools inform the requirements. Use AI as the bridge.
+            </p>
+
+            <p>
+                This is where MCP servers come in. MCP stands for Model Context Protocol. LiveKit and many modern dev tools now offer MCP servers, which are connectors that allow LLMs like Claude to read their entire documentation and codebase in real time.
+            </p>
+
+            <p>
+                Here is what the new workflow looks like.
+            </p>
+
+            <p>
+                First, define the premise. Keep it high level. For Pyra, the premise was: a voice agent that refuses to execute dangerous crypto transactions.
+            </p>
+
+            <p>
+                Second, before writing any requirements, connect your IDE to the sponsor's MCP server. Ask the AI to audit your premise against the documentation. For example: "I want to build a fiduciary voice agent. Scan the LiveKit documentation via MCP and tell me: What is the lowest latency path for interrupting a speaker mid sentence? Does the Python SDK support 'barge in' natively, or do I need to implement my own VAD loop? Give me the architectural constraints."
+            </p>
+
+            <p>
+                Instead of spending two hours reading docs to find out if something is possible, the MCP tells you in ten seconds. Yes, use the VoiceAgent class with function calling. Here are the constraints. Here is sample code.
+            </p>
+
+            <p>
+                Third, now write the functional requirements and system architecture. But this time, you are not guessing. You are writing requirements that you know are technically feasible because the MCP just gave you the implementation path.
+            </p>
+
+            <p>
+                Fourth, implement. Because the architecture was pre validated by the tool's own documentation via MCP, the coding phase becomes assembly, not discovery.
+            </p>
+
+            <p>
+                The old way: write requirements, read docs, realize it's impossible, rewrite requirements. The new way: ask MCP, write requirements based on the answer, implementation is already mapped.
+            </p>
+
+            <p>
+                As engineers, we are trained to be implementation agnostic. Define the what before the how. But in the age of AI and 24 hour builds, the how is changing so fast that it dictates the what. By using MCP servers to interview our tools before we design our system, we don't just build faster. We build things that actually work within the constraints of the technology.
+            </p>
+
+            <h2>Winning Without Complacency</h2>
+
+            <p>
+                We didn't win the sponsor tracks. When the results came in, we felt bummed. We had read Kairo's whitepaper, used their core API, and built something that addressed a gap they explicitly identified. It wasn't enough.
+            </p>
+
+            <p>
+                Then we won 2nd place in the general DevTools track.
+            </p>
+
+            <p>
+                The emotional swing was intense. Suddenly we were celebrating. But on the drive home, I started thinking: what if we hadn't won the general track? I would have been restless, trying to figure out what our competitors did better. I would have dissected every decision we made.
+            </p>
+
+            <p>
+                But because we won, it would have been easy to overlook all of that. To get complacent. To assume we had it figured out.
+            </p>
+
+            <p>
+                The truth is the work doesn't change based on the outcome. Whether you win or lose, the gaps are still there. The improvements are still waiting.
+            </p>
+
+            <p>
+                So even after winning, I went out of my way to figure out what could have been better. How could we have aligned ourselves more with the sponsors? We approached the whitepaper and used their main API, but we used it as a gatekeeper, a passive check. The winners used it as a generator, creating value that wouldn't exist without the API. We built a product that used Kairo; they built products where Kairo was the only reason they existed. That distinction is the difference between a functional implementation and a winning narrative.
+            </p>
+
+            <p>
+                If you didn't place this time, the work is the same. Study what the winners did differently. The gaps you find are your roadmap.
+            </p>
+
+            <h2>The Takeaway</h2>
+
+            <p>
+                We built Pyra with a security first mindset. Next time, we build with a discovery first mindset. Define the premise. Interview the tools with MCP. Then write the requirements.
+            </p>
+
+            <p>
+                Winning is a scoreboard outcome. Learning is an engineering outcome.
+            </p>
+
+            <p>
+                It's not about needing failure to learn. It's about being a lifelong learner and standing firm on that regardless of the wins and losses.
+            </p>
+        </div>
+
+        <div class="main-links">
+            <a href="index.html" class="nav-button">
+                <i class="fas fa-arrow-left"></i>Back to Blog
+            </a>
+            <a href="../index.html" class="nav-button">
+                <i class="fas fa-home"></i>Home
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 Shivaganesh Nagamandla
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        // Theme initialization
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            if (newTheme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Custom cursor
+        document.addEventListener('mousemove', (e) => {
+            if (cursorFollower) {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>
